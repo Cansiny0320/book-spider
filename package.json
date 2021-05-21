@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "gen": "nodemon gen.ts"
+    "spider": "npx ts-node spider.ts"
   },
   "devDependencies": {
     "@types/node": "^15.3.1",
