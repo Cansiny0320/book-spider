@@ -4,10 +4,8 @@
 
 ```bash
 $ yarn
-```
 
-```bash
-yarn spider [bookname]
+$ yarn spider [小说名]
 ```
 
 下载的小说在 download 文件夹
