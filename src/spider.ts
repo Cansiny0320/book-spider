@@ -2,24 +2,27 @@ import axios, { AxiosResponse } from "axios"
 import cheerio from "cheerio"
 import fs from "fs"
 
-const baseUrl = "https://www.biquge.com.cn"
-axios.defaults.baseURL = baseUrl
+import { BASE_URL, DOWNLOAD_PATH, Selector } from "./config"
+import { genSearchUrl } from "./utils"
+
+axios.defaults.baseURL = BASE_URL
 
 interface IContent {
   title: string
   content: string
 }
+
 async function getBookUrl(bookName: string) {
-  const res = await axios.get(encodeURI(`/search.php?q=${bookName}`))
+  const res = await axios.get(genSearchUrl(bookName))
   const $ = cheerio.load(res.data)
-  return $(".result-game-item-title-link").attr("href") as string
+  return $(Selector.SEARCH_RESULT).attr("href") as string
 }
 
 async function getContentUrls(bookUrl: string) {
   const contentUrls: string[] = []
   const res = await axios.get(bookUrl)
   const $ = cheerio.load(res.data)
-  $(".box_con dd a").each((_, ele) => {
+  $(Selector.CONTENT_URLS).each((_, ele) => {
     const url = $(ele).attr("href")
     contentUrls.push(url as string)
   })
@@ -35,8 +38,8 @@ async function getContent(contentUrls: string[]) {
   const res = await Promise.all(promises)
   res.forEach((item, index) => {
     const $ = cheerio.load(item.data)
-    const title = $(".bookname h1").text()
-    const content = $("#content").text().replace(/    /g, "\n\n")
+    const title = $(Selector.BOOK_TITLE).text()
+    const content = $(Selector.BOOK_CONTENT).text().replace(/    /g, "\n\n") // 空格换为空行
     console.log(`正在下载: ${title} ${index + 1} / ${res.length}`)
     contents.push({
       title,
@@ -55,7 +58,7 @@ async function writeFile(bookName: string, contents: IContent[]) {
       console.log("写入完成！")
     }
     const book = `\n${item.title}\n${item.content}\n\n`
-    fs.appendFileSync(`./download/${bookName}.txt`, book)
+    fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, book)
   })
 }
 
@@ -68,7 +71,7 @@ async function spider() {
       return
     }
     const contentUrls = await getContentUrls(bookUrl)
-    fs.mkdirSync("./download", { recursive: true })
+    fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
     writeFile(name, await getContent(contentUrls))
   } catch (error) {
     console.log(error)
