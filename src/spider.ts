@@ -3,8 +3,8 @@ import cheerio from "cheerio"
 import fs from "fs"
 
 import { BASE_URL, DOWNLOAD_PATH, Selector } from "./config"
-import { genSearchUrl } from "./utils"
 import { IBook, IContent, IContentUrl } from "./interface"
+import { genSearchUrl, getNowTime } from "./utils"
 
 axios.defaults.baseURL = BASE_URL
 
@@ -47,20 +47,34 @@ async function getContent(contentUrls: IContentUrl[]) {
   const promises: Promise<AxiosResponse<any>>[] = []
   const contents: IContent[] = []
   contentUrls.forEach((item, index) => {
-    promises.push(axios.get(item.url))
-    console.log(`正在获取: ${item.title} ${index + 1} / ${contentUrls.length}`)
+    console.log(`正在获取: ${item.title} ${index + 1} / ${contentUrls.length} - ${getNowTime()}`)
+    const promise = axios
+      .get(item.url)
+      .then(value => {
+        console.log(`${item.title} 获取成功 - ${getNowTime()}`)
+        return value
+      })
+      .catch(() => {
+        console.log(`${item.title} 获取失败 - ${getNowTime()}`)
+        return Promise.reject("")
+      })
+    promises.push(promise)
   })
   const res = await Promise.all(promises)
+  console.log(`获取完成 开始解析 - ${getNowTime()}`)
+
   res.forEach(item => {
-    const $ = cheerio.load(item.data)
-    const title = $(Selector.CONTENT_TITLE).text()
-    const content = $(Selector.BOOK_CONTENT)
-      .text()
-      .replace(/    |　　/g, "\n\n") // 空格换为空行
-    contents.push({
-      title,
-      content,
-    })
+    if (item) {
+      const $ = cheerio.load(item.data)
+      const title = $(Selector.CONTENT_TITLE).text()
+      const content = $(Selector.BOOK_CONTENT)
+        .text()
+        .replace(/    |　　/g, "\n\n") // 空格换为空行
+      contents.push({
+        title,
+        content,
+      })
+    }
   })
   return contents
 }
@@ -72,12 +86,12 @@ async function writeFile(book: IBook) {
   } = book
   contents.forEach((item, index) => {
     if (index === 0) {
-      console.log(`正在写入：${bookName}...`)
+      console.log(`正在写入：${bookName}... - ${getNowTime()}`)
       const info = `『${bookName}』\n『作者：${author}』\n『简介:${description}』\n`
       fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, info)
     }
     if (index === contents.length - 1) {
-      console.log(`${bookName} 写入完成！- ${new Date().toLocaleString()}\n`)
+      console.log(`${bookName} 写入完成！- ${getNowTime()}`)
     }
     const book = `\n${item.title}\n${item.content}\n\n`
     fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, book)
