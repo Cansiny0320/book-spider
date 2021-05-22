@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import cheerio from "cheerio"
 import fs from "fs"
 
-import { BASE_URL, DOWNLOAD_PATH, Selector } from "./config"
+import { BASE_URL, DOWNLOAD_PATH, Selector, RETRY_TIMES } from "./config"
 import { IBook, IContent, IContentUrl } from "./interface"
 import { genSearchUrl, log } from "./utils"
 
@@ -45,6 +45,23 @@ async function getBookInfo(bookUrl: string) {
   }
 }
 
+async function retry(item: IContentUrl, times: number): Promise<AxiosResponse<any>> {
+  try {
+    const value = await axios.get(item.url)
+    log(`${item.title} 获取成功`)
+    success++
+    return value
+  } catch (err) {
+    if (times > RETRY_TIMES) {
+      log(`${item.title} 获取失败`)
+      fail++
+      return err
+    }
+    log(`${item.title} 获取失败 第 ${times} 次重试...`)
+    return retry(item, ++times)
+  }
+}
+
 async function getContent(contentUrls: IContentUrl[]) {
   const promises: Promise<AxiosResponse<any>>[] = []
   contentUrls.forEach((item, index) => {
@@ -56,18 +73,9 @@ async function getContent(contentUrls: IContentUrl[]) {
         success++
         return value
       })
-      .catch(async () => {
-        log(`${item.title} 获取失败`)
-        try {
-          const value = await axios.get(item.url)
-          log(`${item.title} 重试成功`)
-          success++
-          return value
-        } catch (err) {
-          log(`${item.title} 重试失败`)
-          fail++
-          return err
-        }
+      .catch(() => {
+        log(`${item.title} 获取失败 第 1 次重试...`)
+        return retry(item, 1)
       })
     promises.push(promise)
   })

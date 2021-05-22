@@ -13,3 +13,5 @@ export enum Selector {
   CONTENT_TITLE = ".bookname h1",
   BOOK_CONTENT = "#content",
 }
+
+export const RETRY_TIMES = 3
