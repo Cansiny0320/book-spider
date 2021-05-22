@@ -4,7 +4,7 @@ import fs from "fs"
 
 import { BASE_URL, DOWNLOAD_PATH, Selector } from "./config"
 import { IBook, IContent, IContentUrl } from "./interface"
-import { genSearchUrl, getNowTime, log } from "./utils"
+import { genSearchUrl, log } from "./utils"
 
 axios.defaults.baseURL = BASE_URL
 let success = 0
