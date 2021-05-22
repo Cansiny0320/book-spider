@@ -3,6 +3,11 @@ export interface IContent {
   content: string
 }
 
+export interface IContentUrl {
+  url: string
+  title: string
+}
+
 export interface IBookInfo {
   author: string
   bookName: string
