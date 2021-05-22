@@ -4,7 +4,7 @@ import fs from "fs"
 
 import { BASE_URL, DOWNLOAD_PATH, Selector, RETRY_TIMES } from "./config"
 import { IBook, IContent, IContentUrl } from "./interface"
-import { genSearchUrl, log } from "./utils"
+import { genSearchUrl, logger } from "./utils"
 
 axios.defaults.baseURL = BASE_URL
 let success = 0
@@ -48,16 +48,16 @@ async function getBookInfo(bookUrl: string) {
 async function retry(item: IContentUrl, times: number): Promise<AxiosResponse<any>> {
   try {
     const value = await axios.get(item.url)
-    log(`${item.title} 获取成功`)
+    logger.success(`${item.title} 获取成功`)
     success++
     return value
   } catch (err) {
     if (times > RETRY_TIMES) {
-      log(`${item.title} 获取失败`)
+      logger.fail(`${item.title} 获取失败`)
       fail++
       return err
     }
-    log(`${item.title} 获取失败 第 ${times} 次重试...`)
+    logger.log(`${item.title} 获取失败 第 ${times} 次重试...`)
     return retry(item, ++times)
   }
 }
@@ -65,25 +65,25 @@ async function retry(item: IContentUrl, times: number): Promise<AxiosResponse<an
 async function getContent(contentUrls: IContentUrl[]) {
   const promises: Promise<AxiosResponse<any>>[] = []
   contentUrls.forEach((item, index) => {
-    log(`正在获取: ${item.title} ${index + 1} / ${contentUrls.length}`)
+    logger.log(`正在获取: ${item.title} ${index + 1} / ${contentUrls.length}`)
     const promise = axios
       .get(item.url)
       .then(value => {
-        log(`${item.title} 获取成功`)
+        logger.success(`${item.title} 获取成功`)
         success++
         return value
       })
       .catch(() => {
-        log(`${item.title} 获取失败 第 1 次重试...`)
+        logger.log(`${item.title} 获取失败 第 1 次重试...`)
         return retry(item, 1)
       })
     promises.push(promise)
   })
   const res = await Promise.all(promises)
   if (fail > 0) {
-    log("有缺失章节 建议更换网络重试")
+    logger.log("有缺失章节 建议更换网络重试")
   }
-  log(`获取完成 成功：${success} 失败：${fail} 开始解析`)
+  logger.log(`获取完成 成功：${success} 失败：${fail} 开始解析`)
 
   return parseContent(res)
 }
@@ -113,12 +113,12 @@ async function writeFile(book: IBook) {
   } = book
   contents.forEach((item, index) => {
     if (index === 0) {
-      log(`正在写入：${bookName}...`)
+      logger.log(`正在写入：${bookName}...`)
       const info = `『${bookName}』\n『作者：${author}』\n『简介:${description}』\n`
       fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, info)
     }
     if (index === contents.length - 1) {
-      log(`${bookName} 写入完成！`)
+      logger.log(`${bookName} 写入完成！`)
     }
     const book = `\n${item.title}\n${item.content}\n\n`
     fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, book)
@@ -131,7 +131,7 @@ async function spider(bookName: string) {
   try {
     const bookUrl = await getBookUrl(bookName)
     if (!bookUrl) {
-      log(`暂无${bookName}资源`)
+      logger.log(`暂无${bookName}资源`)
       return
     }
     const { contentUrls, info } = await getBookInfo(bookUrl)
@@ -139,7 +139,7 @@ async function spider(bookName: string) {
     const contents = await getContent(contentUrls)
     writeFile({ info, contents })
   } catch (error) {
-    log("发生未知错误")
+    logger.log(error)
   }
 }
 
