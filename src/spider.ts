@@ -48,13 +48,15 @@ async function getContent(contentUrls: IContentUrl[]) {
   const contents: IContent[] = []
   contentUrls.forEach((item, index) => {
     promises.push(axios.get(item.url))
-    console.log(`正在下载: ${item.title} ${index + 1} / ${contentUrls.length}`)
+    console.log(`正在获取: ${item.title} ${index + 1} / ${contentUrls.length}`)
   })
   const res = await Promise.all(promises)
   res.forEach(item => {
     const $ = cheerio.load(item.data)
     const title = $(Selector.CONTENT_TITLE).text()
-    const content = $(Selector.BOOK_CONTENT).text().replace(/    /g, "\n\n") // 空格换为空行
+    const content = $(Selector.BOOK_CONTENT)
+      .text()
+      .replace(/    |　　/g, "\n\n") // 空格换为空行
     contents.push({
       title,
       content,
