@@ -4,13 +4,9 @@ import fs from "fs"
 
 import { BASE_URL, DOWNLOAD_PATH, Selector } from "./config"
 import { genSearchUrl } from "./utils"
+import { IBook, IContent } from "./interface"
 
 axios.defaults.baseURL = BASE_URL
-
-interface IContent {
-  title: string
-  content: string
-}
 
 async function getBookUrl(bookName: string) {
   const res = await axios.get(genSearchUrl(bookName))
@@ -18,15 +14,25 @@ async function getBookUrl(bookName: string) {
   return $(Selector.SEARCH_RESULT).attr("href") as string
 }
 
-async function getContentUrls(bookUrl: string) {
+async function getBookInfo(bookUrl: string) {
   const contentUrls: string[] = []
   const res = await axios.get(bookUrl)
   const $ = cheerio.load(res.data)
+  const bookName = $(Selector.BOOK_NAME).text().trim()
+  const author = $(Selector.BOOK_AUTHOR).text().trim().split("：")[1]
+  const description = $(Selector.BOOK_DES).text().trim()
   $(Selector.CONTENT_URLS).each((_, ele) => {
     const url = $(ele).attr("href")
     contentUrls.push(url as string)
   })
-  return contentUrls
+  return {
+    contentUrls,
+    info: {
+      bookName,
+      author,
+      description,
+    },
+  }
 }
 
 async function getContent(contentUrls: string[]) {
@@ -38,7 +44,7 @@ async function getContent(contentUrls: string[]) {
   const res = await Promise.all(promises)
   res.forEach((item, index) => {
     const $ = cheerio.load(item.data)
-    const title = $(Selector.BOOK_TITLE).text()
+    const title = $(Selector.CONTENT_TITLE).text()
     const content = $(Selector.BOOK_CONTENT).text().replace(/    /g, "\n\n") // 空格换为空行
     console.log(`正在下载: ${title} ${index + 1} / ${res.length}`)
     contents.push({
@@ -49,33 +55,43 @@ async function getContent(contentUrls: string[]) {
   return contents
 }
 
-async function writeFile(bookName: string, contents: IContent[]) {
+async function writeFile(book: IBook) {
+  const {
+    contents,
+    info: { author, description, bookName },
+  } = book
   contents.forEach((item, index) => {
     if (index === 0) {
-      console.log("写入中...")
+      console.log(`正在写入：${bookName}...`)
+      const info = `『${bookName}』\n『作者：${author}』\n『简介:${description}』\n`
+      fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, info)
     }
     if (index === contents.length - 1) {
-      console.log("写入完成！")
+      console.log(`${bookName} 写入完成！- ${new Date().toLocaleString()}\n`)
     }
     const book = `\n${item.title}\n${item.content}\n\n`
     fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, book)
   })
 }
 
-async function spider() {
+const args = process.argv.slice(2)
+
+async function spider(bookName: string) {
   try {
-    const name = process.argv.slice(2)[0]
-    const bookUrl = await getBookUrl(name)
+    const bookUrl = await getBookUrl(bookName)
     if (!bookUrl) {
-      console.log("暂无书籍资源")
+      console.log(`暂无${bookName}资源`)
       return
     }
-    const contentUrls = await getContentUrls(bookUrl)
+    const { contentUrls, info } = await getBookInfo(bookUrl)
     fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
-    writeFile(name, await getContent(contentUrls))
+    const contents = await getContent(contentUrls)
+    writeFile({ info, contents })
   } catch (error) {
     console.log(error)
   }
 }
 
-spider()
+args.forEach(item => {
+  spider(item)
+})

@@ -6,7 +6,10 @@ export const DOWNLOAD_PATH = path.resolve(__dirname, "../download")
 
 export enum Selector {
   SEARCH_RESULT = ".result-game-item-title-link",
+  BOOK_NAME = "#info h1",
+  BOOK_AUTHOR = "#info h1+p",
+  BOOK_DES = "#intro",
   CONTENT_URLS = ".box_con dd a",
-  BOOK_TITLE = ".bookname h1",
+  CONTENT_TITLE = ".bookname h1",
   BOOK_CONTENT = "#content",
 }
