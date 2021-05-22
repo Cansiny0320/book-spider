@@ -7,6 +7,8 @@ import { IBook, IContent, IContentUrl } from "./interface"
 import { genSearchUrl, getNowTime } from "./utils"
 
 axios.defaults.baseURL = BASE_URL
+let success = 0
+let fail = 0
 
 async function getBookUrl(bookName: string) {
   const res = await axios.get(genSearchUrl(bookName))
@@ -45,26 +47,43 @@ async function getBookInfo(bookUrl: string) {
 
 async function getContent(contentUrls: IContentUrl[]) {
   const promises: Promise<AxiosResponse<any>>[] = []
-  const contents: IContent[] = []
   contentUrls.forEach((item, index) => {
     console.log(`正在获取: ${item.title} ${index + 1} / ${contentUrls.length} - ${getNowTime()}`)
     const promise = axios
       .get(item.url)
       .then(value => {
         console.log(`${item.title} 获取成功 - ${getNowTime()}`)
+        success++
         return value
       })
-      .catch(() => {
+      .catch(async () => {
         console.log(`${item.title} 获取失败 - ${getNowTime()}`)
-        return Promise.reject("")
+        try {
+          const value = await axios.get(item.url)
+          console.log(`${item.title} 重试成功 - ${getNowTime()}`)
+          success++
+          return value
+        } catch (err) {
+          console.log(`${item.title} 重试失败 - ${getNowTime()}`)
+          fail++
+          return err
+        }
       })
     promises.push(promise)
   })
   const res = await Promise.all(promises)
-  console.log(`获取完成 开始解析 - ${getNowTime()}`)
+  if (fail > 0) {
+    console.log("有缺失章节 建议更换网络重试")
+  }
+  console.log(`获取完成 成功：${success} 失败：${fail} 开始解析 - ${getNowTime()}`)
 
+  return parseContent(res)
+}
+
+function parseContent(res: AxiosResponse<any>[]) {
+  const contents: IContent[] = []
   res.forEach(item => {
-    if (item) {
+    if (item.data) {
       const $ = cheerio.load(item.data)
       const title = $(Selector.CONTENT_TITLE).text()
       const content = $(Selector.BOOK_CONTENT)
