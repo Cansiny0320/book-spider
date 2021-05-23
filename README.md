@@ -19,7 +19,12 @@
 ```bash
 $ yarn
 
+
 $ yarn spider [小说名]
+
+// 或者下载 download.txt 文件中的小说
+
+$ yarn spider download
 ```
 
 ## tips
