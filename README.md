@@ -34,4 +34,4 @@ $ yarn spider [小说名]
 
 ## 运行截图
 
-![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/1621745075249-1621745042429.png)
+![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/1621749960365-1621749953964.png)
