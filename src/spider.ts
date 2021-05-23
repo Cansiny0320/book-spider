@@ -83,7 +83,7 @@ async function getContent(contentUrls: IContentUrl[]) {
   if (fail > 0) {
     logger.log("有缺失章节 建议更换网络重试")
   }
-  logger.log(`获取完成 成功：${success} 失败：${fail} 开始解析`)
+  logger.log(`获取完成 成功：${success} 失败：${fail} 开始解析...`)
 
   return parseContent(res)
 }
