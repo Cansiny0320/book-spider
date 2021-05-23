@@ -143,6 +143,7 @@ export class Spider {
     }
     const suffixBookName = () => {
       bookName = `${raw}(${suffix})`
+      suffix++
       this.checkFile(`${DOWNLOAD_PATH}/${bookName}.txt`, write, suffixBookName)
     }
     this.checkFile(`${DOWNLOAD_PATH}/${bookName}.txt`, write, suffixBookName)
