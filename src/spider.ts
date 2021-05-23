@@ -9,7 +9,7 @@ import { genSearchUrl, logger } from "./utils"
 axios.defaults.baseURL = BASE_URL
 let success = 0
 let fail = 0
-
+let total = 0
 async function getBookUrl(bookName: string) {
   const res = await axios.get(genSearchUrl(bookName))
   const $ = cheerio.load(res.data)
@@ -48,13 +48,13 @@ async function getBookInfo(bookUrl: string) {
 async function retry(item: IContentUrl, times: number): Promise<AxiosResponse<any>> {
   try {
     const value = await axios.get(item.url)
-    logger.success(`${item.title} 获取成功`)
     success++
+    logger.success(`[${success + fail}/${total}] - ${item.title} 获取成功`)
     return value
   } catch (err) {
     if (times > RETRY_TIMES) {
-      logger.fatal(`${item.title} 获取失败`)
       fail++
+      logger.fatal(`[${success + fail}/${total}] - ${item.title} 获取失败`)
       return err
     }
     logger.fatal(`${item.title} 获取失败 第 ${times} 次重试...`)
@@ -64,13 +64,14 @@ async function retry(item: IContentUrl, times: number): Promise<AxiosResponse<an
 
 async function getContent(contentUrls: IContentUrl[]) {
   const promises: Promise<AxiosResponse<any>>[] = []
+  total = contentUrls.length
   contentUrls.forEach((item, index) => {
-    logger.interactive.await(`[${index + 1}/${contentUrls.length}] - 正在获取: ${item.title}`)
+    logger.interactive.await(`[${index + 1}/${total}] - 正在获取: ${item.title}`)
     const promise = axios
       .get(item.url)
       .then(value => {
-        logger.success(`${item.title} 获取成功`)
         success++
+        logger.success(`[${success + fail}/${total}] - ${item.title} 获取成功`)
         return value
       })
       .catch(() => {
@@ -139,7 +140,7 @@ async function spider(bookName: string) {
     const contents = await getContent(contentUrls)
     writeFile({ info, contents })
   } catch (error) {
-    logger.fatal(error)
+    logger.fatal(`获取书籍失败 请检查网络后重试或检查书源是否失效 ${BASE_URL}`)
   }
 }
 
