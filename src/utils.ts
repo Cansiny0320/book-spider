@@ -1,4 +1,8 @@
-import chalk from "chalk"
+import { Signale } from "signale"
+
+const interactive = new Signale({ interactive: true })
+
+const signale = new Signale()
 
 export const genSearchUrl = (bookName: string) => encodeURI(`/search.php?q=${bookName}`)
 
@@ -8,7 +12,10 @@ export const getNowTime = () =>
   })}`
 
 export const logger = {
-  success: (str: string) => console.log(chalk.green(`${str} - ${getNowTime()}`)),
-  fail: (str: string) => console.log(chalk.red(`${str} - ${getNowTime()}`)),
-  log: (str: string) => console.log(`${str} - ${getNowTime()}`),
+  success: (str: string) => signale.success(`${str} - ${getNowTime()}`),
+  fatal: (str: string) => signale.fatal(`${str} - ${getNowTime()}`),
+  log: (str: string) => signale.log(`${str} - ${getNowTime()}`),
+  complete: (str: string) => signale.complete(`${str} - ${getNowTime()}`),
+  await: (str: string) => signale.await(`${str} - ${getNowTime()}`),
+  interactive,
 }
