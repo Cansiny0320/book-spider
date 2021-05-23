@@ -31,3 +31,7 @@ $ yarn spider [小说名]
 章节获取失败重试次数默认 3 次，可在 `config.ts` 配置
 
 保证良好的网络可减少章节缺失率
+
+## 运行截图
+
+![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/1621745075249-1621745042429.png)
