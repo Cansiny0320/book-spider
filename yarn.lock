@@ -21,19 +21,19 @@
   dependencies:
     axios "*"
 
+"@types/chalk@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.nlark.com/@types/chalk/download/@types/chalk-2.2.0.tgz#b7f6e446f4511029ee8e3f43075fb5b73fbaa0ba"
+  integrity sha1-t/bkRvRRECnujj9DB1+1tz+6oLo=
+  dependencies:
+    chalk "*"
+
 "@types/cheerio@^0.22.28":
   version "0.22.28"
   resolved "https://registry.nlark.com/@types/cheerio/download/@types/cheerio-0.22.28.tgz?cache=0&sync_timestamp=1621240852566&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fcheerio%2Fdownload%2F%40types%2Fcheerio-0.22.28.tgz#90808aabb44fec40fa2950f4c72351e3e4eb065b"
   integrity sha1-kICKq7RP7ED6KVD0xyNR4+TrBls=
   dependencies:
     "@types/node" "*"
-
-"@types/colors@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.nlark.com/@types/colors/download/@types/colors-1.2.1.tgz#57703f1a9f7f5fc40afb81eef13e96acdd1016a6"
-  integrity sha1-V3A/Gp9/X8QK+4Hu8T6WrN0QFqY=
-  dependencies:
-    colors "*"
 
 "@types/node@*", "@types/node@^15.3.1":
   version "15.3.1"
@@ -156,6 +156,14 @@ camelcase@^5.3.1:
   resolved "https://registry.npm.taobao.org/camelcase/download/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha1-48mzFWnhBoEd8kL3FXJaH0xJQyA=
 
+chalk@*, chalk@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.nlark.com/chalk/download/chalk-4.1.1.tgz#c80b3fab28bf6371e6863325eee67e618b77e6ad"
+  integrity sha1-yAs/qyi/Y3HmhjMl7uZ+YYt35q0=
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
 chalk@^3.0.0:
   version "3.0.0"
   resolved "https://registry.nlark.com/chalk/download/chalk-3.0.0.tgz#3f73c2bf526591f574cc492c51e2456349f844e4"
@@ -231,11 +239,6 @@ color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.npm.taobao.org/color-name/download/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=
-
-colors@*, colors@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npm.taobao.org/colors/download/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
-  integrity sha1-xQSRR51MG9rtLJztMs98fcI2D3g=
 
 concat-map@0.0.1:
   version "0.0.1"
