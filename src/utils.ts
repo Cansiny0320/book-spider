@@ -4,7 +4,8 @@ const interactive = new Signale({ interactive: true })
 
 const signale = new Signale()
 
-export const genSearchUrl = (bookName: string) => encodeURI(`/search.php?q=${bookName}`)
+export const genSearchUrl = (bookName: string) =>
+  encodeURI(`/modules/article/search.php?searchkey=${bookName}`)
 
 export const getNowTime = () =>
   `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString("chinese", {

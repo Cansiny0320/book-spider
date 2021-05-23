@@ -1,11 +1,11 @@
 import path from "path"
 
-export const BASE_URL = "https://www.biquge.com.cn"
+export const BASE_URL = "https://www.biquwx.la/"
 
 export const DOWNLOAD_PATH = path.resolve(__dirname, "../download")
 
 export enum Selector {
-  SEARCH_RESULT = ".result-game-item-title-link",
+  SEARCH_RESULT = "td > a",
   BOOK_NAME = "#info h1",
   BOOK_AUTHOR = "#info h1+p",
   BOOK_DES = "#intro",

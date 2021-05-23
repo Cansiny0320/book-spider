@@ -2,7 +2,7 @@
 
 🎉 开箱即用的高性能命令行小说爬虫 快速下载无广告 txt 文件
 
-书源来自[笔趣阁](https://www.biquge.com.cn/)
+书源来自[笔趣阁](https://www.biquwx.la/)
 
 ## ✨ 特性
 

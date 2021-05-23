@@ -36,10 +36,10 @@ export class Spider {
     const res = await axios.get(bookUrl)
     const $ = cheerio.load(res.data)
     const bookName = $(Selector.BOOK_NAME).text().trim()
-    const author = $(Selector.BOOK_AUTHOR).text().trim().split("：")[1]
+    const author = $(Selector.BOOK_AUTHOR).text().trim().split(/:|：/)[1]
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
-      const url = $(ele).attr("href") as string
+      const url = (bookUrl + $(ele).attr("href")) as string
       const title = $(ele).text()
       contentUrls.push({ url, title })
     })
@@ -82,7 +82,7 @@ export class Spider {
           logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
           return value
         })
-        .catch(() => {
+        .catch(err => {
           logger.fatal(`${item.title} 获取失败 第 1 次重试...`)
           return this.retry(item, 1)
         })
