@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import cheerio from "cheerio"
 import fs from "fs"
 
-import { BASE_URL, DOWNLOAD_PATH, Selector, RETRY_TIMES } from "./config"
+import { BASE_URL, DOWNLOAD_PATH, Selector, RETRY_TIMES, AD } from "./config"
 import { IBook, IContent, IContentUrl } from "./interface"
 import { genSearchUrl, logger } from "./utils"
 
@@ -132,8 +132,13 @@ export class Spider {
         if (index === contents.length - 1) {
           logger.complete(`${bookName} 写入完成！`)
         }
-        const book = `\n${item.title}\n${item.content}\n\n`
-        fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, book)
+        let content = `\n${item.title}\n${item.content}\n\n`
+        AD.forEach(item => {
+          if (content.includes(item)) {
+            content = content.replace(item, "")
+          }
+        })
+        fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, content)
       })
     }
     const suffixBookName = () => {

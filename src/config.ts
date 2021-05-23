@@ -14,4 +14,9 @@ export enum Selector {
   BOOK_CONTENT = "#content",
 }
 
+export const AD = [
+  "看最快更新无错小说，请记住 https://www.biquge.com.cn！章节内容正在手打中，请稍等片刻，内容更新后，请重新刷新页面，即可获取最新更新！",
+  "[笔趣阁 www.biqugetv.info]",
+]
+
 export const RETRY_TIMES = 3
