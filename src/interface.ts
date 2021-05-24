@@ -18,3 +18,25 @@ export interface IBook {
   contents: IContent[]
   info: IBookInfo
 }
+
+export interface IQuery {
+  path: string
+  param: string
+}
+
+export interface ISource {
+  Selector: ISelector
+  Url: string
+  AD: string[]
+  Query: IQuery
+}
+
+interface ISelector {
+  SEARCH_RESULT: string
+  BOOK_NAME: string
+  BOOK_AUTHOR: string
+  BOOK_DES: string
+  CONTENT_URLS: string
+  CONTENT_TITLE: string
+  BOOK_CONTENT: string
+}

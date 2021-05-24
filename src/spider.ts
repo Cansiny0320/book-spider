@@ -2,16 +2,17 @@ import axios, { AxiosResponse } from "axios"
 import cheerio from "cheerio"
 import fs from "fs"
 
-import { BASE_URL, DOWNLOAD_PATH, Selector, RETRY_TIMES, AD } from "./config"
-import { IBook, IContent, IContentUrl } from "./interface"
-import { genSearchUrl, logger } from "./utils"
+import { DOWNLOAD_PATH, source, RETRY_TIMES } from "./config"
+import { IBook, IContent, IContentUrl, ISource } from "./interface"
+import { genSearchUrl, logger, checkSource, getSource } from "./utils"
 
-axios.defaults.baseURL = BASE_URL
+// axios.defaults.baseURL = BASE_URL
 
 export class Spider {
   success: number
   fail: number
   total: number
+  source!: ISource
   constructor(bookName: string) {
     this.success = 0
     this.fail = 0
@@ -19,7 +20,8 @@ export class Spider {
     this.run(bookName)
   }
   async getBookUrl(bookName: string) {
-    const res = await axios.get(genSearchUrl(bookName))
+    const { Selector, Query } = this.source
+    const res = await axios.get(genSearchUrl(Query, bookName))
     const $ = cheerio.load(res.data)
     let bookUrl = $(Selector.SEARCH_RESULT).attr("href") as string
     $(Selector.SEARCH_RESULT).each((_, ele) => {
@@ -32,6 +34,7 @@ export class Spider {
   }
 
   async getBookInfo(bookUrl: string) {
+    const { Selector } = this.source
     const contentUrls: IContentUrl[] = []
     const res = await axios.get(bookUrl)
     const $ = cheerio.load(res.data)
@@ -39,7 +42,7 @@ export class Spider {
     const author = $(Selector.BOOK_AUTHOR).text().trim().split(/:|：/)[1]
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
-      const url = (bookUrl + $(ele).attr("href")) as string
+      const url = (bookUrl + ($(ele).attr("href") as string).split("/").pop()) as string
       const title = $(ele).text()
       contentUrls.push({ url, title })
     })
@@ -98,6 +101,7 @@ export class Spider {
   }
 
   parseContent(res: AxiosResponse<any>[]) {
+    const { Selector } = this.source
     const contents: IContent[] = []
     res.forEach(item => {
       if (item.data) {
@@ -120,6 +124,7 @@ export class Spider {
       contents,
       info: { author, description, bookName: raw },
     } = book
+    const { AD } = this.source
     let suffix = 1
     let bookName = raw
     const write = () => {
@@ -161,6 +166,8 @@ export class Spider {
 
   async run(bookName: string) {
     try {
+      this.source = await getSource(source)
+      axios.defaults.baseURL = this.source.Url
       const bookUrl = await this.getBookUrl(bookName)
       if (!bookUrl) {
         logger.fatal(`暂无${bookName}资源`)
@@ -169,10 +176,9 @@ export class Spider {
       const { contentUrls, info } = await this.getBookInfo(bookUrl)
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       const contents = await this.getContent(contentUrls)
-
       this.writeFile({ info, contents })
     } catch (error) {
-      logger.fatal(`获取书籍失败 请检查网络后重试或检查书源是否失效 ${BASE_URL}`)
+      logger.fatal(error)
     }
   }
 }
