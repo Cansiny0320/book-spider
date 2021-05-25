@@ -4,7 +4,7 @@ import fs from "fs"
 
 import { DOWNLOAD_PATH, RETRY_TIMES, source } from "./config"
 import { IBook, IContent, IContentUrl, ISource } from "./interface"
-import { genSearchUrl, getSource, logger } from "./utils"
+import { checkFileExist, genSearchUrl, getSource, logger } from "./utils"
 
 export class Spider {
   success: number
@@ -17,6 +17,7 @@ export class Spider {
     this.total = 0
     this.run(bookName)
   }
+
   async getBookUrl(bookName: string) {
     const { Selector, Query } = this.source
     const res = await axios.get(genSearchUrl(Query, bookName))
@@ -37,7 +38,7 @@ export class Spider {
     const res = await axios.get(bookUrl)
     const $ = cheerio.load(res.data)
     const bookName = $(Selector.BOOK_NAME).text().trim()
-    const author = $(Selector.BOOK_AUTHOR).text().trim().split(/:|：/)[1]
+    const author = $(Selector.BOOK_AUTHOR).text().trim().split(/:|：/).pop() as string
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
       const url = (bookUrl + ($(ele).attr("href") as string).split("/").pop()) as string
@@ -83,7 +84,7 @@ export class Spider {
           logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
           return value
         })
-        .catch(err => {
+        .catch(() => {
           logger.fatal(`${item.title} 获取失败 第 1 次重试...`)
           return this.retry(item, 1)
         })
@@ -137,9 +138,7 @@ export class Spider {
         }
         let content = `\n${item.title}\n${item.content}\n\n`
         AD.forEach(item => {
-          if (content.includes(item)) {
-            content = content.replace(item, "")
-          }
+          content = content.replace(item, "")
         })
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, content)
       })
@@ -147,19 +146,9 @@ export class Spider {
     const suffixBookName = () => {
       bookName = `${raw}(${suffix})`
       suffix++
-      this.checkFile(`${DOWNLOAD_PATH}/${bookName}.txt`, write, suffixBookName)
+      checkFileExist(`${DOWNLOAD_PATH}/${bookName}.txt`, suffixBookName, write)
     }
-    this.checkFile(`${DOWNLOAD_PATH}/${bookName}.txt`, write, suffixBookName)
-  }
-
-  checkFile(path: fs.PathLike, onerror: () => void, onsuccess: () => void) {
-    fs.access(path, fs.constants.F_OK, err => {
-      if (err) {
-        onerror()
-      } else {
-        onsuccess()
-      }
-    })
+    checkFileExist(`${DOWNLOAD_PATH}/${bookName}.txt`, suffixBookName, write)
   }
 
   async run(bookName: string) {

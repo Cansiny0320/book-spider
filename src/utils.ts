@@ -1,4 +1,5 @@
 import axios from "axios"
+import fs from "fs"
 import { Signale } from "signale"
 
 import { IQuery, ISource } from "./interface"
@@ -43,5 +44,15 @@ export const getSource = async (source: ISource[]) => {
       logger.fatal(`${source[i].Url} 暂不可用，检查下一个网站...`)
     }
   }
-  throw new Error(`无可用网站！`)
+  throw new Error(`无可用网站或网络异常`)
+}
+
+export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExist: () => void) => {
+  fs.access(path, fs.constants.F_OK, err => {
+    if (err) {
+      onNotExist()
+    } else {
+      onExist()
+    }
+  })
 }
