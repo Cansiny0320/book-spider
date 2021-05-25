@@ -18,10 +18,9 @@
 
 ## 💡 使用方法
 
+使用 NPM:
+
 ```bash
-
-# npm
-
 $ npm i
 
 $ npm run spider [小说名]
@@ -29,9 +28,11 @@ $ npm run spider [小说名]
 # 或者下载 download.txt 文件中的小说
 
 $ npm run spider download
+```
 
-# yarn
+使用 Yarn:
 
+```bash
 $ yarn or npm i
 
 $ yarn spider [小说名]
