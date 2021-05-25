@@ -6,7 +6,7 @@ export const DOWNLOAD_PATH = path.resolve(__dirname, "../download")
 
 export const source: ISource[] = [
   {
-    Url: "https://www.biquwx.la/",
+    Url: "https://www.biquwx.la",
     Selector: {
       SEARCH_RESULT: "td > a",
       BOOK_NAME: "#info h1",
@@ -18,7 +18,7 @@ export const source: ISource[] = [
     },
     AD: [],
     Query: {
-      path: "modules/article/search.php",
+      path: "/modules/article/search.php",
       param: "searchkey",
     },
   },
@@ -38,8 +38,27 @@ export const source: ISource[] = [
       "[笔趣阁 www.biqugetv.info]",
     ],
     Query: {
-      path: "search.php",
+      path: "/search.php",
       param: "q",
+    },
+  },
+  {
+    Url: "https://www.xbiquge.la",
+    Selector: {
+      SEARCH_RESULT: ".even a",
+      BOOK_NAME: "#info h1",
+      BOOK_AUTHOR: "#info h1+p",
+      BOOK_DES: "#intro p:last-child",
+      CONTENT_URLS: ".box_con dd a",
+      CONTENT_TITLE: ".bookname h1",
+      BOOK_CONTENT: "#content",
+    },
+    AD: [
+      "亲,点击进去,给个好评呗,分数越高更新越快,据说给新笔趣阁打满分的最后都找到了漂亮的老婆哦!手机站全新改版升级地址：https://m.xbiquge.la，数据和书签与电脑站同步，无广告清新阅读！",
+    ],
+    Query: {
+      path: "/modules/article/waps.php",
+      param: "searchkey",
     },
   },
 ]

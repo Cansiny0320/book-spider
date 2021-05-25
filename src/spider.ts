@@ -23,7 +23,7 @@ export class Spider {
     const { Selector, Query } = this.source
     const res = await axios.get(genSearchUrl(Query, bookName))
     const $ = cheerio.load(res.data)
-    let bookUrl = $(Selector.SEARCH_RESULT).attr("href") as string
+    let bookUrl = ($(Selector.SEARCH_RESULT).attr("href") as string).replace(this.source.Url, "")
     $(Selector.SEARCH_RESULT).each((_, ele) => {
       const title = $(ele).attr("title")
       if (title === bookName) {
