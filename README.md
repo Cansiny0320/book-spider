@@ -19,12 +19,24 @@
 ## 💡 使用方法
 
 ```bash
-$ yarn
 
+# npm
+
+$ npm i
+
+$ npm run spider [小说名]
+
+# 或者下载 download.txt 文件中的小说
+
+$ npm run spider download
+
+# yarn
+
+$ yarn or npm i
 
 $ yarn spider [小说名]
 
-// 或者下载 download.txt 文件中的小说
+# 或者下载 download.txt 文件中的小说
 
 $ yarn spider download
 ```
