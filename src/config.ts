@@ -16,7 +16,11 @@ export const source: ISource[] = [
       CONTENT_TITLE: ".bookname h1",
       BOOK_CONTENT: "#content",
     },
-    AD: [],
+    AD: [
+      '温馨提示：笔趣阁已启用新域名"biquge.info"，原域名即将停止使用。请相互转告，谢谢！',
+      "[ biquge.xyz]",
+      "笔、趣、阁www。biquge。info",
+    ],
     Query: {
       path: "/modules/article/search.php",
       param: "searchkey",
