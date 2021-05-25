@@ -2,11 +2,9 @@ import axios, { AxiosResponse } from "axios"
 import cheerio from "cheerio"
 import fs from "fs"
 
-import { DOWNLOAD_PATH, source, RETRY_TIMES } from "./config"
+import { DOWNLOAD_PATH, RETRY_TIMES, source } from "./config"
 import { IBook, IContent, IContentUrl, ISource } from "./interface"
-import { genSearchUrl, logger, checkSource, getSource } from "./utils"
-
-// axios.defaults.baseURL = BASE_URL
+import { genSearchUrl, getSource, logger } from "./utils"
 
 export class Spider {
   success: number

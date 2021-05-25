@@ -1,5 +1,6 @@
-import { Signale } from "signale"
 import axios from "axios"
+import { Signale } from "signale"
+
 import { IQuery, ISource } from "./interface"
 
 const interactive = new Signale({ interactive: true })

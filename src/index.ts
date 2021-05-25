@@ -1,5 +1,6 @@
-import { Spider } from "./spider"
 import fs from "fs"
+
+import { Spider } from "./spider"
 
 const args = process.argv.slice(2)
 
