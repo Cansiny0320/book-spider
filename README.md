@@ -33,7 +33,7 @@ $ npm run spider download
 使用 Yarn:
 
 ```bash
-$ yarn or npm i
+$ yarn
 
 $ yarn spider [小说名]
 
