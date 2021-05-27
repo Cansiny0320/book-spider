@@ -1,16 +1,27 @@
 import fs from "fs"
+import optimist from "optimist"
+import { IOptions } from "./interface"
+const argv = optimist.argv
 
 import { Spider } from "./spider"
+import { getSpecSource } from "./utils"
 
-const args = process.argv.slice(2)
+const bookNames = argv._ as string[]
+const url = argv.source as string
 
-if (args[0] === "download") {
+const options: IOptions = {}
+
+if (url) {
+  options.source = getSpecSource(url)
+}
+
+if (bookNames[0] === "download") {
   const download = fs.readFileSync("./download.txt", "utf-8").split("\r\n")
   download.forEach(item => {
-    new Spider(item)
+    new Spider(item, options)
   })
 } else {
-  args.forEach(item => {
-    new Spider(item)
+  bookNames.forEach(item => {
+    new Spider(item, options)
   })
 }

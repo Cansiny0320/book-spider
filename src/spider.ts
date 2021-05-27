@@ -3,7 +3,7 @@ import cheerio from "cheerio"
 import fs from "fs"
 
 import { DOWNLOAD_PATH, RETRY_TIMES, source } from "./config"
-import { IBook, IContent, IContentUrl, ISource } from "./interface"
+import { IBook, IContent, IContentUrl, IOptions, ISource } from "./interface"
 import { checkFileExist, genSearchUrl, getSource, logger } from "./utils"
 
 export class Spider {
@@ -11,7 +11,13 @@ export class Spider {
   fail: number
   total: number
   source!: ISource
-  constructor(bookName: string) {
+  constructor(bookName: string, options?: IOptions) {
+    if (options) {
+      const { source } = options
+      if (source) {
+        this.source = source
+      }
+    }
     this.success = 0
     this.fail = 0
     this.total = 0
@@ -153,7 +159,11 @@ export class Spider {
 
   async run(bookName: string) {
     try {
-      this.source = await getSource(source)
+      if (!this.source) {
+        this.source = await getSource(source)
+      } else {
+        logger.log(`爬取开始，本次指定书源：${this.source.Url}`)
+      }
       axios.defaults.baseURL = this.source.Url
       const bookUrl = await this.getBookUrl(bookName)
       if (!bookUrl) {

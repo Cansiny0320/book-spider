@@ -40,3 +40,7 @@ interface ISelector {
   CONTENT_TITLE: string
   BOOK_CONTENT: string
 }
+
+export interface IOptions {
+  source?: ISource
+}

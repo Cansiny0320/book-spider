@@ -1,6 +1,7 @@
 import axios from "axios"
 import fs from "fs"
 import { Signale } from "signale"
+import { source } from "./config"
 
 import { IQuery, ISource } from "./interface"
 
@@ -42,6 +43,8 @@ export const getSource = async (source: ISource[]) => {
     throw new Error(`无可用网站或网络异常`)
   }
 }
+
+export const getSpecSource = (url: string) => source.filter(v => v.Url === url)[0]
 
 export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExist: () => void) => {
   fs.access(path, fs.constants.F_OK, err => {

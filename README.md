@@ -2,6 +2,8 @@
 
 🎉 开箱即用的高性能可配置小说爬虫 快速下载无广告 txt 文件
 
+书源来自各种笔趣阁
+
 ## ✨ 特性
 
 📂 批量下载
@@ -42,6 +44,14 @@ $ yarn spider [小说名]
 $ yarn spider download
 ```
 
+默认会自动选择最快书源，若要指定书源
+
+```bash
+
+$ yarn spider --source [url] [小说名]
+
+```
+
 ## ❗ tips
 
 支持批量下载 小说名之间用空格分开
@@ -54,7 +64,7 @@ $ yarn spider download
 
 **如何配置来源网站**
 
-按照如下格式修改 `config.ts` 中的 `source` 数组
+按照如下格式修改 `config.ts` 中的 `source` 数组，无需关心书源顺序
 
 具体可以参考已配置的网站
 
