@@ -25,26 +25,22 @@ export const logger = {
   interactive,
 }
 
-export const checkSource = async (source: string) => {
-  try {
-    await axios.get(source)
-    return true
-  } catch (error) {
-    return false
-  }
-}
-
 export const getSource = async (source: ISource[]) => {
+  const requests = []
   for (let i = 0; i < source.length; i++) {
-    try {
-      if (await checkSource(source[i].Url)) {
-        return source[i]
-      }
-    } catch (error) {
-      logger.fatal(`${source[i].Url} 暂不可用，检查下一个网站...`)
-    }
+    requests.push(
+      axios.get(source[i].Url).then(() => {
+        return Promise.resolve(i)
+      }),
+    )
   }
-  throw new Error(`无可用网站或网络异常`)
+  try {
+    const result = await any(requests)
+    logger.log(`爬取开始，已自动选择最快书源：${source[result as number].Url}`)
+    return source[result as number]
+  } catch (error) {
+    throw new Error(`无可用网站或网络异常`)
+  }
 }
 
 export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExist: () => void) => {
@@ -56,3 +52,25 @@ export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExis
     }
   })
 }
+
+export const any = (values: Promise<any>[]) =>
+  new Promise((resolve, reject) => {
+    const length = values.length
+    const errors: Promise<any>[] = []
+    let resolved = false
+    values.map(item =>
+      Promise.resolve(item)
+        .then(v => {
+          if (!resolved) {
+            resolved = true
+            resolve(v)
+          }
+        })
+        .catch(e => {
+          errors.push(e)
+          if (errors.length === length) {
+            reject(new AggregateError(errors, "No Promise in Promise.any was resolved"))
+          }
+        }),
+    )
+  })
