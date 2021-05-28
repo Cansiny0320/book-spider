@@ -65,6 +65,23 @@ export const sources: ISource[] = [
       param: "searchkey",
     },
   },
+  {
+    Url: "https://www.biqugeu.net",
+    Selector: {
+      SEARCH_RESULT: "#hotcontent .item .image a",
+      BOOK_NAME: "#info h1",
+      BOOK_AUTHOR: "#info h1+p",
+      BOOK_DES: "#intro",
+      CONTENT_URLS: ".box_con dd a",
+      CONTENT_TITLE: ".bookname h1",
+      BOOK_CONTENT: "#content",
+    },
+    AD: [],
+    Query: {
+      path: "/searchbook.php",
+      param: "keyword",
+    },
+  },
 ]
 
 export const RETRY_TIMES = 3
