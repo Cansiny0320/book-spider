@@ -26,7 +26,6 @@ export class Spider {
   }
 
   async getBookUrl(bookName: string, source: ISource) {
-    console.log(source)
     const { Selector, Query } = source
     const res = await axios.get(genSearchUrl(Query, bookName))
     const $ = cheerio.load(res.data)
