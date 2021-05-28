@@ -23,7 +23,7 @@ export class Spider {
     this.total = 0
     this.run(bookName)
   }
-
+  // TODO: 应该在获取到书籍Url后判断用哪个源
   async getBookUrl(bookName: string) {
     const { Selector, Query } = this.source
     const res = await axios.get(genSearchUrl(Query, bookName))
@@ -32,7 +32,7 @@ export class Spider {
     $(Selector.SEARCH_RESULT).each((_, ele) => {
       const title = $(ele).attr("title")
       if (title === bookName) {
-        bookUrl = $(ele).attr("href") as string
+        bookUrl = ($(ele).attr("href") as string).replace(this.source.Url, "")
       }
     })
     return bookUrl
