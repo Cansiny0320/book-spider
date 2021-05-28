@@ -4,28 +4,7 @@ import { ISource } from "./interface"
 
 export const DOWNLOAD_PATH = path.resolve(__dirname, "../download")
 
-export const source: ISource[] = [
-  {
-    Url: "https://www.biquwx.la",
-    Selector: {
-      SEARCH_RESULT: "td > a",
-      BOOK_NAME: "#info h1",
-      BOOK_AUTHOR: "#info h1+p",
-      BOOK_DES: "#intro",
-      CONTENT_URLS: ".box_con dd a",
-      CONTENT_TITLE: ".bookname h1",
-      BOOK_CONTENT: "#content",
-    },
-    AD: [
-      '温馨提示：笔趣阁已启用新域名"biquge.info"，原域名即将停止使用。请相互转告，谢谢！',
-      "[ biquge.xyz]",
-      "笔、趣、阁www。biquge。info",
-    ],
-    Query: {
-      path: "/modules/article/search.php",
-      param: "searchkey",
-    },
-  },
+export const sources: ISource[] = [
   {
     Url: "https://www.biquge.com.cn",
     Selector: {
@@ -62,6 +41,27 @@ export const source: ISource[] = [
     ],
     Query: {
       path: "/modules/article/waps.php",
+      param: "searchkey",
+    },
+  },
+  {
+    Url: "https://www.biquwx.la",
+    Selector: {
+      SEARCH_RESULT: "td > a",
+      BOOK_NAME: "#info h1",
+      BOOK_AUTHOR: "#info h1+p",
+      BOOK_DES: "#intro",
+      CONTENT_URLS: ".box_con dd a",
+      CONTENT_TITLE: ".bookname h1",
+      BOOK_CONTENT: "#content",
+    },
+    AD: [
+      '温馨提示：笔趣阁已启用新域名"biquge.info"，原域名即将停止使用。请相互转告，谢谢！',
+      "[ biquge.xyz]",
+      "笔、趣、阁www。biquge。info",
+    ],
+    Query: {
+      path: "/modules/article/search.php",
       param: "searchkey",
     },
   },

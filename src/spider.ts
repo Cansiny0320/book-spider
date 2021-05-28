@@ -2,15 +2,16 @@ import axios, { AxiosResponse } from "axios"
 import cheerio from "cheerio"
 import fs from "fs"
 
-import { DOWNLOAD_PATH, RETRY_TIMES, source } from "./config"
+import { DOWNLOAD_PATH, RETRY_TIMES, sources } from "./config"
 import { IBook, IContent, IContentUrl, IOptions, ISource } from "./interface"
-import { checkFileExist, genSearchUrl, getSource, logger } from "./utils"
+import { any, checkFileExist, genSearchUrl, logger } from "./utils"
 
 export class Spider {
   success: number
   fail: number
   total: number
   source!: ISource
+  bookUrl: string | undefined
   constructor(bookName: string, options?: IOptions) {
     if (options) {
       const { source } = options
@@ -23,19 +24,20 @@ export class Spider {
     this.total = 0
     this.run(bookName)
   }
-  // TODO: 应该在获取到书籍Url后判断用哪个源
-  async getBookUrl(bookName: string) {
-    const { Selector, Query } = this.source
+
+  async getBookUrl(bookName: string, source: ISource) {
+    console.log(source)
+    const { Selector, Query } = source
     const res = await axios.get(genSearchUrl(Query, bookName))
     const $ = cheerio.load(res.data)
-    let bookUrl = ($(Selector.SEARCH_RESULT).attr("href") as string).replace(this.source.Url, "")
+    let bookUrl = ($(Selector.SEARCH_RESULT).attr("href") as string).replace(source.Url, "")
     $(Selector.SEARCH_RESULT).each((_, ele) => {
       const title = $(ele).attr("title")
       if (title === bookName) {
-        bookUrl = ($(ele).attr("href") as string).replace(this.source.Url, "")
+        bookUrl = ($(ele).attr("href") as string).replace(source.Url, "")
       }
     })
-    return bookUrl
+    if (bookUrl) return { source, bookUrl }
   }
 
   async getBookInfo(bookUrl: string) {
@@ -160,17 +162,26 @@ export class Spider {
   async run(bookName: string) {
     try {
       if (!this.source) {
-        this.source = await getSource(source)
+        const requests: Promise<any>[] = []
+        sources.forEach(source => {
+          axios.defaults.baseURL = source.Url
+          requests.push(this.getBookUrl(bookName, source))
+        })
+        const { bookUrl, source } = (await any(requests)) as any
+        this.bookUrl = bookUrl
+        this.source = source
+        logger.log(`爬取开始，已自动选择最快书源：${source.Url}`)
       } else {
+        axios.defaults.baseURL = this.source.Url
+        const { bookUrl } = (await this.getBookUrl(bookName, this.source)) as {
+          source: ISource
+          bookUrl: string
+        }
+        this.bookUrl = bookUrl
         logger.log(`爬取开始，本次指定书源：${this.source.Url}`)
       }
       axios.defaults.baseURL = this.source.Url
-      const bookUrl = await this.getBookUrl(bookName)
-      if (!bookUrl) {
-        logger.fatal(`暂无${bookName}资源`)
-        return
-      }
-      const { contentUrls, info } = await this.getBookInfo(bookUrl)
+      const { contentUrls, info } = await this.getBookInfo(this.bookUrl!)
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       const contents = await this.getContent(contentUrls)
       this.writeFile({ info, contents })

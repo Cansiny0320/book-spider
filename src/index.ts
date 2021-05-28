@@ -1,10 +1,11 @@
 import fs from "fs"
 import optimist from "optimist"
-import { IOptions } from "./interface"
-const argv = optimist.argv
 
+import { IOptions } from "./interface"
 import { Spider } from "./spider"
 import { getSpecSource } from "./utils"
+
+const argv = optimist.argv
 
 const bookNames = argv._ as string[]
 const url = argv.source as string

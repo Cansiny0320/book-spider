@@ -1,9 +1,8 @@
-import axios from "axios"
 import fs from "fs"
 import { Signale } from "signale"
-import { source } from "./config"
 
-import { IQuery, ISource } from "./interface"
+import { sources } from "./config"
+import { IQuery } from "./interface"
 
 const interactive = new Signale({ interactive: true })
 
@@ -26,25 +25,7 @@ export const logger = {
   interactive,
 }
 
-export const getSource = async (source: ISource[]) => {
-  const requests = []
-  for (let i = 0; i < source.length; i++) {
-    requests.push(
-      axios.get(source[i].Url).then(() => {
-        return Promise.resolve(i)
-      }),
-    )
-  }
-  try {
-    const result = await any(requests)
-    logger.log(`爬取开始，已自动选择最快书源：${source[result as number].Url}`)
-    return source[result as number]
-  } catch (error) {
-    throw new Error(`无可用网站或网络异常`)
-  }
-}
-
-export const getSpecSource = (url: string) => source.filter(v => v.Url === url)[0]
+export const getSpecSource = (url: string) => sources.filter(v => v.Url === url)[0]
 
 export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExist: () => void) => {
   fs.access(path, fs.constants.F_OK, err => {
@@ -72,7 +53,7 @@ export const any = (values: Promise<any>[]) =>
         .catch(e => {
           errors.push(e)
           if (errors.length === length) {
-            reject(new AggregateError(errors, "No Promise in Promise.any was resolved"))
+            reject("无可用资源")
           }
         }),
     )
