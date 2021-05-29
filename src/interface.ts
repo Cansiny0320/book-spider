@@ -44,3 +44,8 @@ interface ISelector {
 export interface IOptions {
   source?: ISource
 }
+
+export interface IResultGetBookUrl {
+  source: ISource
+  bookUrl: string
+}

@@ -3,7 +3,7 @@ import cheerio from "cheerio"
 import fs from "fs"
 
 import { DOWNLOAD_PATH, RETRY_TIMES, sources } from "./config"
-import { IBook, IContent, IContentUrl, IOptions, ISource } from "./interface"
+import { IBook, IContent, IContentUrl, IOptions, IResultGetBookUrl, ISource } from "./interface"
 import { any, checkFileExist, genSearchUrl, logger } from "./utils"
 
 export class Spider {
@@ -158,28 +158,31 @@ export class Spider {
     checkFileExist(`${DOWNLOAD_PATH}/${bookName}.txt`, suffixBookName, write)
   }
 
+  async selectSource(bookName: string) {
+    const requests: Promise<IResultGetBookUrl | undefined>[] = []
+    sources.forEach(source => {
+      axios.defaults.baseURL = source.Url
+      requests.push(this.getBookUrl(bookName, source))
+    })
+    return any(requests) as Promise<IResultGetBookUrl>
+  }
+
   async run(bookName: string) {
     try {
       if (!this.source) {
-        const requests: Promise<any>[] = []
-        sources.forEach(source => {
-          axios.defaults.baseURL = source.Url
-          requests.push(this.getBookUrl(bookName, source))
-        })
-        const { bookUrl, source } = (await any(requests)) as any
+        const { bookUrl, source } = await this.selectSource(bookName)
         this.bookUrl = bookUrl
         this.source = source
         logger.log(`爬取开始，已自动选择最快书源：${source.Url}`)
       } else {
         axios.defaults.baseURL = this.source.Url
-        const { bookUrl } = (await this.getBookUrl(bookName, this.source)) as {
-          source: ISource
-          bookUrl: string
+        const result = await this.getBookUrl(bookName, this.source)
+        if (result) {
+          const { bookUrl } = result
+          this.bookUrl = bookUrl
+          logger.log(`爬取开始，本次指定书源：${this.source.Url}`)
         }
-        this.bookUrl = bookUrl
-        logger.log(`爬取开始，本次指定书源：${this.source.Url}`)
       }
-      axios.defaults.baseURL = this.source.Url
       const { contentUrls, info } = await this.getBookInfo(this.bookUrl!)
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       const contents = await this.getContent(contentUrls)
