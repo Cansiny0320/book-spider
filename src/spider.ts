@@ -136,8 +136,8 @@ export class Spider {
     const write = () => {
       contents.forEach((item, index) => {
         if (index === 0) {
-          logger.await(`正在写入：${bookName}...`)
-          const info = `『${bookName}』\n『作者：${author}』\n『简介:${description}』\n`
+          logger.await(`正在写入：${raw}...`)
+          const info = `『${raw}』\n『作者：${author}』\n『简介:${description}』\n`
           fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, info)
         }
         if (index === contents.length - 1) {
