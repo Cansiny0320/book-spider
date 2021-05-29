@@ -173,6 +173,7 @@ export class Spider {
         const { bookUrl, source } = await this.selectSource(bookName)
         this.bookUrl = bookUrl
         this.source = source
+        axios.defaults.baseURL = this.source.Url
         logger.log(`爬取开始，已自动选择最快书源：${source.Url}`)
       } else {
         axios.defaults.baseURL = this.source.Url
