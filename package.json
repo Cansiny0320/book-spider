@@ -8,15 +8,15 @@
     "test": "npx ts-node src/test.ts"
   },
   "devDependencies": {
-    "@types/node": "^15.3.1",
+    "@types/node": "^15.12.0",
     "@types/optimist": "^0.0.29",
     "@types/signale": "^1.4.1",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
-    "@types/cheerio": "^0.22.28",
+    "@types/cheerio": "^0.22.29",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.9",
     "optimist": "^0.6.1",
