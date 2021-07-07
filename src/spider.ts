@@ -48,7 +48,7 @@ export class Spider {
     const author = $(Selector.BOOK_AUTHOR).text().trim().split(/:|：/).pop() as string
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
-      const url = (bookUrl + ($(ele).attr("href") as string).split("/").pop()) as string
+      const url = bookUrl + ($(ele).attr("href") as string).split("/").pop()
       const title = $(ele).text()
       contentUrls.push({ url, title })
     })
@@ -144,8 +144,8 @@ export class Spider {
           logger.complete(`${bookName} 写入完成！`)
         }
         let content = `\n${item.title}\n${item.content}\n\n`
-        AD.forEach(item => {
-          content = content.replace(item, "")
+        AD.forEach(e => {
+          content = content.replace(e, "")
         })
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, content)
       })

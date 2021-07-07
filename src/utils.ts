@@ -42,7 +42,7 @@ export const any = (values: Promise<any>[]) =>
     const length = values.length
     const errors: Promise<any>[] = []
     let resolved = false
-    values.map(item =>
+    values.forEach(item =>
       Promise.resolve(item)
         .then(v => {
           if (!resolved) {
