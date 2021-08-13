@@ -1,8 +1,13 @@
 {
   "name": "book-spider",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "main": "index.js",
   "license": "MIT",
+  "author": "Cansiny0320",
+  "keywords": [
+    "spider",
+    "book"
+  ],
   "scripts": {
     "spider": "npx ts-node src/index.ts",
     "test": "npx ts-node src/test.ts"
