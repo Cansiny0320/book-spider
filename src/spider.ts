@@ -165,6 +165,17 @@ export class Spider {
     return contents
   }
 
+  removeAd(content: string, AD: string[]) {
+    AD.forEach(e => {
+      content = content.replace(e, '')
+    })
+    const URLRegex =
+      /^(((ht|f)tps?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/g
+    content = content.replace(URLRegex, '')
+    content = content.includes(this.source!.Url) ? '' : content
+    return content
+  }
+
   async writeFile(book: IBook) {
     const {
       contents,
@@ -184,9 +195,7 @@ export class Spider {
           logger.complete(`${bookName} 写入完成！`)
         }
         let content = `\n${item.title}\n${item.content}\n\n`
-        AD.forEach(e => {
-          content = content.replace(e, '')
-        })
+        content = this.removeAd(content, AD)
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, content)
       })
     }
