@@ -43,6 +43,7 @@ interface ISelector {
 
 export interface IOptions {
   source?: ISource
+  limit: number
 }
 
 export interface IResultGetBookUrl {

@@ -1,27 +1,31 @@
-import axios, { AxiosResponse } from "axios"
-import cheerio from "cheerio"
-import fs from "fs"
+import axios, { AxiosResponse } from 'axios'
+import cheerio from 'cheerio'
+import fs from 'fs'
 
-import { DOWNLOAD_PATH, RETRY_TIMES, sources } from "./config"
-import { IBook, IContent, IContentUrl, IOptions, IResultGetBookUrl, ISource } from "./interface"
-import { any, checkFileExist, genSearchUrl, logger } from "./utils"
+import { DOWNLOAD_PATH, RETRY_TIMES, sources } from './config'
+import {
+  IBook,
+  IContent,
+  IContentUrl,
+  IOptions,
+  IResultGetBookUrl,
+  ISource,
+} from './interface'
+import { any, checkFileExist, genSearchUrl, logger } from './utils'
 
 export class Spider {
   success: number
   fail: number
   total: number
-  source!: ISource
+  source: ISource | undefined
   bookUrl: string | undefined
-  constructor(bookName: string, options?: IOptions) {
-    if (options) {
-      const { source } = options
-      if (source) {
-        this.source = source
-      }
-    }
+  limit: number
+  constructor(bookName: string, options: IOptions) {
     this.success = 0
     this.fail = 0
     this.total = 0
+    this.source = options.source
+    this.limit = options.limit
     this.run(bookName)
   }
 
@@ -29,26 +33,33 @@ export class Spider {
     const { Selector, Query } = source
     const res = await axios.get(genSearchUrl(Query, bookName))
     const $ = cheerio.load(res.data)
-    let bookUrl = ($(Selector.SEARCH_RESULT).attr("href") as string).replace(source.Url, "")
+    let bookUrl = ($(Selector.SEARCH_RESULT).attr('href') as string).replace(
+      source.Url,
+      '',
+    )
     $(Selector.SEARCH_RESULT).each((_, ele) => {
-      const title = $(ele).attr("title")
+      const title = $(ele).attr('title')
       if (title === bookName) {
-        bookUrl = ($(ele).attr("href") as string).replace(source.Url, "")
+        bookUrl = ($(ele).attr('href') as string).replace(source.Url, '')
       }
     })
     if (bookUrl) return { source, bookUrl }
   }
 
   async getBookInfo(bookUrl: string) {
-    const { Selector } = this.source
+    const { Selector } = this.source!
     const contentUrls: IContentUrl[] = []
     const res = await axios.get(bookUrl)
     const $ = cheerio.load(res.data)
     const bookName = $(Selector.BOOK_NAME).text().trim()
-    const author = $(Selector.BOOK_AUTHOR).text().trim().split(/:|：/).pop() as string
+    const author = $(Selector.BOOK_AUTHOR)
+      .text()
+      .trim()
+      .split(/:|：/)
+      .pop() as string
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
-      const url = bookUrl + ($(ele).attr("href") as string).split("/").pop()
+      const url = bookUrl + ($(ele).attr('href') as string).split('/').pop()
       const title = $(ele).text()
       contentUrls.push({ url, title })
     })
@@ -62,16 +73,59 @@ export class Spider {
     }
   }
 
+  async limitRequest(limit: number, array: IContentUrl[]) {
+    const res: Promise<any>[] = [] // 存储所有的异步任务
+    const executing: Promise<any>[] = [] // 存储正在执行的异步任务
+    for (const item of array) {
+      const p = Promise.resolve().then(() =>
+        axios
+          .get(item.url)
+          .then(value => {
+            this.success++
+            logger.success(
+              `[${this.success + this.fail}/${this.total}] - ${
+                item.title
+              } 获取成功`,
+            )
+            return value
+          })
+          .catch(() => {
+            logger.fatal(`${item.title} 获取失败 第 1 次重试...`)
+            return this.retry(item, 1)
+          }),
+      )
+      res.push(p) // 保存新的异步任务
+      // 当limit值小于或等于总任务个数时，进行并发控制
+      if (limit <= array.length) {
+        // 当任务完成后，从正在执行的任务数组中移除已完成的任务
+        const e: Promise<any> = p.then(() =>
+          executing.splice(executing.indexOf(e), 1),
+        )
+        executing.push(e) // 保存正在执行的异步任务
+        if (executing.length >= limit) {
+          await Promise.race(executing) // 等待较快的任务执行完成
+        }
+      }
+    }
+    return Promise.all(res)
+  }
+
   async retry(item: IContentUrl, times: number): Promise<AxiosResponse<any>> {
     try {
       const value = await axios.get(item.url)
       this.success++
-      logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
+      logger.success(
+        `[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`,
+      )
       return value
     } catch (err) {
       if (times > RETRY_TIMES) {
         this.fail++
-        logger.fatal(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取失败`)
+        logger.fatal(
+          `[${this.success + this.fail}/${this.total}] - ${
+            item.title
+          } 获取失败`,
+        )
         return err
       }
       logger.fatal(`${item.title} 获取失败 第 ${times} 次重试...`)
@@ -80,34 +134,20 @@ export class Spider {
   }
 
   async getContent(contentUrls: IContentUrl[]) {
-    const promises: Promise<AxiosResponse<any>>[] = []
     this.total = contentUrls.length
-    contentUrls.forEach((item, index) => {
-      logger.interactive.await(`[${index + 1}/${this.total}] - 正在获取: ${item.title}`)
-      const promise = axios
-        .get(item.url)
-        .then(value => {
-          this.success++
-          logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
-          return value
-        })
-        .catch(() => {
-          logger.fatal(`${item.title} 获取失败 第 1 次重试...`)
-          return this.retry(item, 1)
-        })
-      promises.push(promise)
-    })
-    const res = await Promise.all(promises)
+    const res = await this.limitRequest(this.limit, contentUrls)
     if (this.fail > 0) {
-      logger.fatal("有缺失章节 建议更换网络重试")
+      logger.fatal('有缺失章节 建议更换网络重试')
     }
-    logger.success(`获取完成 成功：${this.success} 失败：${this.fail} 开始解析...`)
+    logger.success(
+      `获取完成 成功：${this.success} 失败：${this.fail} 开始解析...`,
+    )
 
     return this.parseContent(res)
   }
 
   parseContent(res: AxiosResponse<any>[]) {
-    const { Selector } = this.source
+    const { Selector } = this.source!
     const contents: IContent[] = []
     res.forEach(item => {
       if (item.data) {
@@ -115,7 +155,7 @@ export class Spider {
         const title = $(Selector.CONTENT_TITLE).text()
         const content = $(Selector.BOOK_CONTENT)
           .text()
-          .replace(/    |　　/g, "\n\n") // 空格换为空行
+          .replace(/    |　　/g, '\n\n') // 空格换为空行
         contents.push({
           title,
           content,
@@ -130,7 +170,7 @@ export class Spider {
       contents,
       info: { author, description, bookName: raw },
     } = book
-    const { AD } = this.source
+    const { AD } = this.source!
     let suffix = 1
     let bookName = raw
     const write = () => {
@@ -145,7 +185,7 @@ export class Spider {
         }
         let content = `\n${item.title}\n${item.content}\n\n`
         AD.forEach(e => {
-          content = content.replace(e, "")
+          content = content.replace(e, '')
         })
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, content)
       })
