@@ -54,7 +54,7 @@ $ yarn spider --source [url] [小说名]
 
 ```
 
-默认并发数为 20，若要修改并发限制
+默认并发数为 64，若要修改并发限制
 
 ```bash
 $ yarn spider --limit [number] [小说名]

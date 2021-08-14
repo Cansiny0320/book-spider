@@ -12,7 +12,7 @@ const url = argv.source as string
 const limit = argv.limit as string
 
 const options: IOptions = {
-  limit: parseInt(limit) || 20,
+  limit: parseInt(limit) || 64,
 }
 
 if (url) {
