@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import cheerio from 'cheerio'
 import fs from 'fs'
-
 import { DOWNLOAD_PATH, RETRY_TIMES, sources } from './config'
 import {
   IBook,
@@ -11,7 +10,7 @@ import {
   IResultGetBookUrl,
   ISource,
 } from './interface'
-import { any, checkFileExist, genSearchUrl, logger } from './utils'
+import { any, checkFileExist, genSearchUrl, logger, sleep } from './utils'
 
 export class Spider {
   success: number
@@ -129,7 +128,7 @@ export class Spider {
         return err
       }
       logger.fatal(`${item.title} 获取失败 第 ${times} 次重试...`)
-      return this.retry(item, ++times)
+      return sleep(1000).then(() => this.retry(item, ++times))
     }
   }
 
