@@ -128,7 +128,8 @@ export class Spider {
         return err
       }
       logger.fatal(`${item.title} 获取失败 第 ${times} 次重试...`)
-      return sleep(1000).then(() => this.retry(item, ++times))
+      await sleep(1000)
+      return this.retry(item, ++times)
     }
   }
 
