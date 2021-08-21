@@ -72,7 +72,7 @@ export const sources: ISource[] = [
       BOOK_NAME: '#info h1',
       BOOK_AUTHOR: '#info h1+p',
       BOOK_DES: '#intro',
-      CONTENT_URLS: '.box_con dd a',
+      CONTENT_URLS: '.box_con dl dt:nth-child(2n)~dd a',
       CONTENT_TITLE: '.bookname h1',
       BOOK_CONTENT: '#content',
     },
