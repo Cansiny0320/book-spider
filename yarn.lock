@@ -41,10 +41,10 @@
   dependencies:
     axios "*"
 
-"@types/cheerio@^0.22.29":
-  version "0.22.29"
-  resolved "https://registry.nlark.com/@types/cheerio/download/@types/cheerio-0.22.29.tgz#7115e9688bfc9e2f2730327c674b3d6a7e753e09"
-  integrity sha1-cRXpaIv8ni8nMDJ8Z0s9an51Pgk=
+"@types/cheerio@^0.22.30":
+  version "0.22.30"
+  resolved "https://registry.nlark.com/@types/cheerio/download/@types/cheerio-0.22.30.tgz#6c1ded70d20d890337f0f5144be2c5e9ce0936e6"
+  integrity sha1-bB3tcNINiQM38PUUS+LF6c4JNuY=
   dependencies:
     "@types/node" "*"
 
@@ -53,10 +53,10 @@
   resolved "https://registry.nlark.com/@types/node/download/@types/node-15.3.1.tgz?cache=0&sync_timestamp=1621463831198&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-15.3.1.tgz#23a06b87eedb524016616e886b116b8fdcb180af"
   integrity sha1-I6Brh+7bUkAWYW6IaxFrj9yxgK8=
 
-"@types/node@^16.6.1":
-  version "16.6.1"
-  resolved "https://registry.nlark.com/@types/node/download/@types/node-16.6.1.tgz#aee62c7b966f55fc66c7b6dfa1d58db2a616da61"
-  integrity sha1-ruYse5ZvVfxmx7bfodWNsqYW2mE=
+"@types/node@^16.7.1":
+  version "16.7.1"
+  resolved "https://registry.nlark.com/@types/node/download/@types/node-16.7.1.tgz#c6b9198178da504dfca1fd0be9b2e1002f1586f0"
+  integrity sha1-xrkZgXjaUE38of0L6bLhAC8VhvA=
 
 "@types/optimist@^0.0.30":
   version "0.0.30"
@@ -406,10 +406,10 @@ supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-ts-node@^10.2.0:
-  version "10.2.0"
-  resolved "https://registry.nlark.com/ts-node/download/ts-node-10.2.0.tgz#f1e88249a00e26aa95e9a93c50f70241a8a1c4bb"
-  integrity sha1-8eiCSaAOJqqV6ak8UPcCQaihxLs=
+ts-node@^10.2.1:
+  version "10.2.1"
+  resolved "https://registry.nlark.com/ts-node/download/ts-node-10.2.1.tgz#4cc93bea0a7aba2179497e65bb08ddfc198b3ab5"
+  integrity sha1-TMk76gp6uiF5SX5luwjd/BmLOrU=
   dependencies:
     "@cspotcode/source-map-support" "0.6.1"
     "@tsconfig/node10" "^1.0.7"
