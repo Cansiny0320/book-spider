@@ -34,7 +34,7 @@ export class Spider {
     const $ = cheerio.load(res.data)
     let bookUrl = ($(Selector.SEARCH_RESULT).attr('href') as string).replace(
       source.Url,
-      '',
+      ''
     )
     $(Selector.SEARCH_RESULT).each((_, ele) => {
       const title = $(ele).attr('title')
@@ -84,21 +84,21 @@ export class Spider {
             logger.success(
               `[${this.success + this.fail}/${this.total}] - ${
                 item.title
-              } 获取成功`,
+              } 获取成功`
             )
             return value
           })
           .catch(() => {
             logger.fatal(`${item.title} 获取失败 第 1 次重试...`)
             return this.retry(item, 1)
-          }),
+          })
       )
       res.push(p) // 保存新的异步任务
       // 当limit值小于或等于总任务个数时，进行并发控制
       if (limit <= array.length) {
         // 当任务完成后，从正在执行的任务数组中移除已完成的任务
         const e: Promise<any> = p.then(() =>
-          executing.splice(executing.indexOf(e), 1),
+          executing.splice(executing.indexOf(e), 1)
         )
         executing.push(e) // 保存正在执行的异步任务
         if (executing.length >= limit) {
@@ -114,16 +114,14 @@ export class Spider {
       const value = await axios.get(item.url)
       this.success++
       logger.success(
-        `[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`,
+        `[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`
       )
       return value
     } catch (err) {
       if (times > RETRY_TIMES) {
         this.fail++
         logger.fatal(
-          `[${this.success + this.fail}/${this.total}] - ${
-            item.title
-          } 获取失败`,
+          `[${this.success + this.fail}/${this.total}] - ${item.title} 获取失败`
         )
         return err
       }
@@ -140,7 +138,7 @@ export class Spider {
       logger.fatal('有缺失章节 建议更换网络重试')
     }
     logger.success(
-      `获取完成 成功：${this.success} 失败：${this.fail} 开始解析...`,
+      `获取完成 成功：${this.success} 失败：${this.fail} 开始解析...`
     )
 
     return this.parseContent(res)
