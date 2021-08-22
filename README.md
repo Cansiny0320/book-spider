@@ -1,8 +1,6 @@
 # 小说爬虫
 
-🎉 开箱即用的高性能可配置小说爬虫 快速下载无广告 txt 文件
-
-书源来自各种笔趣阁
+![book-spider](https://socialify.git.ci/Cansiny0320/book-spider/image?description=1&descriptionEditable=%F0%9F%8E%89%20%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8%E7%9A%84%E9%AB%98%E6%80%A7%E8%83%BD%E5%8F%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%AC%94%E8%B6%A3%E9%98%81%E5%B0%8F%E8%AF%B4%E7%88%AC%E8%99%AB%20%20%E5%BF%AB%E9%80%9F%E4%B8%8B%E8%BD%BD%E6%97%A0%E5%B9%BF%E5%91%8A%E5%B0%8F%E8%AF%B4&font=Inter&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
 
 ## ✨ 特性
 
