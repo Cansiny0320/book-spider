@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "spider": "npx ts-node src/index.ts",
+    "check": "npx ts-node ./scripts/checkSource.ts",
     "test": "npx ts-node src/test.ts"
   },
   "devDependencies": {
