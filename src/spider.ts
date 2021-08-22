@@ -19,13 +19,12 @@ export class Spider {
   source: ISource | undefined
   bookUrl: string | undefined
   limit: number
-  constructor(bookName: string, options: IOptions) {
+  constructor(options: IOptions) {
     this.success = 0
     this.fail = 0
     this.total = 0
     this.source = options.source
     this.limit = options.limit
-    this.run(bookName)
   }
 
   async getBookUrl(bookName: string, source: ISource) {

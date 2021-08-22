@@ -19,13 +19,15 @@ if (url) {
   options.source = getSpecSource(url)
 }
 
+const spider = new Spider(options)
+
 if (bookNames[0] === 'download') {
   const download = fs.readFileSync('./download.txt', 'utf-8').split('\r\n')
   download.forEach(item => {
-    new Spider(item, options)
+    spider.run(item)
   })
 } else {
   bookNames.forEach(item => {
-    new Spider(item, options)
+    spider.run(item)
   })
 }
