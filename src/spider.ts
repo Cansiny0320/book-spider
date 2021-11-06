@@ -53,7 +53,7 @@ export class Spider {
     const author = $(Selector.BOOK_AUTHOR)
       .text()
       .trim()
-      .split(/:|：/)
+      .split(/[:：]/)
       .pop() as string
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
@@ -108,7 +108,7 @@ export class Spider {
     return Promise.all(res)
   }
 
-  async retry(item: IContentUrl, times: number): Promise<AxiosResponse<any>> {
+  async retry(item: IContentUrl, times: number): Promise<AxiosResponse> {
     try {
       const value = await axios.get(item.url)
       this.success++
@@ -143,7 +143,7 @@ export class Spider {
     return this.parseContent(res)
   }
 
-  parseContent(res: AxiosResponse<any>[]) {
+  parseContent(res: AxiosResponse[]) {
     const { Selector } = this.source!
     const contents: IContent[] = []
     res.forEach(item => {
@@ -210,7 +210,7 @@ export class Spider {
       axios.defaults.baseURL = source.Url
       requests.push(this.getBookUrl(bookName, source))
     })
-    return any(requests) as Promise<IResultGetBookUrl>
+    return await any(requests) as Promise<IResultGetBookUrl>
   }
 
   async run(bookName: string) {
@@ -233,7 +233,7 @@ export class Spider {
       const { contentUrls, info } = await this.getBookInfo(this.bookUrl!)
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       const contents = await this.getContent(contentUrls)
-      this.writeFile({ info, contents })
+      await this.writeFile({info, contents})
     } catch (error) {
       logger.fatal(error)
     }
