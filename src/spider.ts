@@ -122,7 +122,7 @@ export class Spider {
         logger.fatal(
           `[${this.success + this.fail}/${this.total}] - ${item.title} 获取失败`
         )
-        return err
+        return err as Promise<AxiosResponse>
       }
       logger.fatal(`${item.title} 获取失败 第 ${times} 次重试...`)
       await sleep(1000)
@@ -210,7 +210,7 @@ export class Spider {
       axios.defaults.baseURL = source.Url
       requests.push(this.getBookUrl(bookName, source))
     })
-    return await any(requests) as Promise<IResultGetBookUrl>
+    return (await any(requests)) as Promise<IResultGetBookUrl>
   }
 
   async run(bookName: string) {
@@ -233,9 +233,9 @@ export class Spider {
       const { contentUrls, info } = await this.getBookInfo(this.bookUrl!)
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       const contents = await this.getContent(contentUrls)
-      await this.writeFile({info, contents})
+      await this.writeFile({ info, contents })
     } catch (error) {
-      logger.fatal(error)
+      logger.fatal(error as string)
     }
   }
 }
