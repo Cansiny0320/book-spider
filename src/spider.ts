@@ -10,7 +10,7 @@ import {
   IResultGetBookUrl,
   ISource,
 } from './interface'
-import { any, checkFileExist, genSearchUrl, logger, sleep } from './utils'
+import { checkFileExist, genSearchUrl, logger, sleep } from './utils'
 
 export class Spider {
   success: number
@@ -210,7 +210,9 @@ export class Spider {
       axios.defaults.baseURL = source.Url
       requests.push(this.getBookUrl(bookName, source))
     })
-    return (await any(requests)) as Promise<IResultGetBookUrl>
+    return (await Promise.any(
+      requests
+    )) as unknown as Promise<IResultGetBookUrl>
   }
 
   async run(bookName: string) {
