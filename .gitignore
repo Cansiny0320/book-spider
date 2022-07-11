@@ -1,3 +1,9 @@
 node_modules
 download
 test.*
+.idea
+.DS_Store
+dist
+test/**/pnpm-lock.yaml
+package.back.json
+cache.json

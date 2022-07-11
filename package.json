@@ -1,24 +1,37 @@
 {
   "name": "book-spider",
   "version": "1.2.0",
-  "main": "index.js",
   "license": "MIT",
   "author": "Cansiny0320",
+  "description": "a tool for downloading book",
   "keywords": [
     "spider",
     "book"
   ],
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "book-spider": "bin/book-spider.mjs"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "spider": "npx ts-node src/index.ts",
     "check": "npx ts-node ./scripts/checkSource.ts",
-    "test": "npx ts-node src/test.ts"
+    "test": "npx ts-node src/test.ts",
+    "build": "unbuild",
+    "release": "bumpp --commit --tag --push && pnpm publish --no-git-checks"
   },
   "devDependencies": {
     "@types/node": "^16.11.10",
     "@types/optimist": "^0.0.30",
     "@types/signale": "^1.4.2",
+    "bumpp": "^8.2.1",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "unbuild": "^0.7.4"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
