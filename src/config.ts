@@ -1,12 +1,9 @@
 import path from 'path'
-import { fileURLToPath } from 'url'
 
 import { ISource } from './interface'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-export const DOWNLOAD_PATH = path.resolve(__dirname, '../download')
+export const DOWNLOAD_PATH = path.resolve(process.cwd(), './download')
+console.log(DOWNLOAD_PATH)
 
 export const sources: ISource[] = [
   {
