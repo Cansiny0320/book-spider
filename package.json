@@ -1,6 +1,6 @@
 {
   "name": "book-spider",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "license": "MIT",
   "author": "Cansiny0320",
   "description": "a tool for downloading book",
@@ -22,7 +22,7 @@
     "check": "esno ./scripts/checkSource.ts",
     "test": "esno src/test.ts",
     "build": "unbuild",
-    "release": "bumpp --commit --tag --push && pnpm publish --no-git-checks"
+    "release": "bumpp --commit --push && pnpm publish --no-git-checks"
   },
   "devDependencies": {
     "@types/node": "^16.11.10",
