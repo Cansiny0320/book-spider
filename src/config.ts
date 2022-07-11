@@ -1,6 +1,10 @@
 import path from 'path'
+import { fileURLToPath } from 'url'
 
 import { ISource } from './interface'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export const DOWNLOAD_PATH = path.resolve(__dirname, '../download')
 
@@ -93,9 +97,7 @@ export const sources: ISource[] = [
       CONTENT_TITLE: '.content h1',
       BOOK_CONTENT: '#content',
     },
-    AD: [
-      '请记住本书首发域名：www.shuquge.com。书趣阁_笔趣阁手机版阅读网址：m.shuquge.com',
-    ],
+    AD: ['请记住本书首发域名：www.shuquge.com。书趣阁_笔趣阁手机版阅读网址：m.shuquge.com'],
     Query: {
       path: '/search.php',
       param: 'searchkey',
