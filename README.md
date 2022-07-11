@@ -21,16 +21,16 @@
 > 需要 Node 版本 >= 15.0.0
 
 ```bash
-$ npm i bookspider -g
+$ npm i book-spider -g
 
-$ bookspider [小说名]
+$ book-spider [小说名]
 ```
 
 默认会自动选择最快书源，若要指定书源
 
 ```bash
 
-$ bookspider --source [url] [小说名]
+$ book-spider --source [url] [小说名]
 # url: 书源网址
 # https://www.biquge.com.cn
 # https://www.xbiquge.la
@@ -42,13 +42,13 @@ $ bookspider --source [url] [小说名]
 默认并发数为 64，若要修改并发限制
 
 ```bash
-$ bookspider --limit [number] [小说名]
+$ book-spider --limit [number] [小说名]
 ```
 
 支持批量下载 小说名之间用空格分开
 
 ```bash
-$ bookspider [小说名] [小说名] ...
+$ book-spider [小说名] [小说名] ...
 ```
 
 ## 运行截图
