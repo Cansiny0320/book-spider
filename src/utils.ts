@@ -1,8 +1,10 @@
 import fs from 'fs'
-import { Signale } from 'signale'
+import _Signale from 'signale'
 
 import { sources } from './config'
 import { IQuery } from './interface'
+
+const { Signale } = _Signale
 
 const interactive = new Signale({ interactive: true })
 
@@ -12,12 +14,9 @@ export const genSearchUrl = (query: IQuery, bookName: string) =>
   encodeURI(`${query.path}?${query.param}=${bookName}`)
 
 export const getNowTime = () =>
-  `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString(
-    'chinese',
-    {
-      hour12: false,
-    }
-  )}`
+  `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('chinese', {
+    hour12: false,
+  })}`
 
 export const logger = {
   success: (str: string) => signale.success(`${str} - ${getNowTime()}`),
@@ -28,14 +27,9 @@ export const logger = {
   interactive,
 }
 
-export const getSpecSource = (url: string) =>
-  sources.filter(v => v.Url === url)[0]
+export const getSpecSource = (url: string) => sources.filter(v => v.Url === url)[0]
 
-export const checkFileExist = (
-  path: fs.PathLike,
-  onExist: () => void,
-  onNotExist: () => void
-) => {
+export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExist: () => void) => {
   fs.access(path, fs.constants.F_OK, err => {
     if (err) {
       onNotExist()
@@ -45,5 +39,4 @@ export const checkFileExist = (
   })
 }
 
-export const sleep = (delay: number) =>
-  new Promise(resolve => setTimeout(resolve, delay))
+export const sleep = (delay: number) => new Promise(resolve => setTimeout(resolve, delay))
