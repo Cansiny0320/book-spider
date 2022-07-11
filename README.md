@@ -20,48 +20,35 @@
 
 > 需要 Node 版本 >= 15.0.0
 
-使用 NPM:
-
 ```bash
-$ npm i
+$ npm i bookspider -g
 
-$ npm run spider [小说名]
-
-# 或者下载 download.txt 文件中的小说
-
-$ npm run spider download
-```
-
-使用 Yarn:
-
-```bash
-$ yarn
-
-$ yarn spider [小说名]
-
-# 或者下载 download.txt 文件中的小说
-
-$ yarn spider download
+$ bookspider [小说名]
 ```
 
 默认会自动选择最快书源，若要指定书源
 
 ```bash
 
-$ yarn spider --source [url] [小说名]
-
+$ bookspider --source [url] [小说名]
+# url: 书源网址
+# https://www.biquge.com.cn
+# https://www.xbiquge.la
+# https://www.biquwx.la
+# https://www.biqugeu.net
+# https://www.shuquge.com
 ```
 
 默认并发数为 64，若要修改并发限制
 
 ```bash
-$ yarn spider --limit [number] [小说名]
+$ bookspider --limit [number] [小说名]
 ```
 
 支持批量下载 小说名之间用空格分开
 
 ```bash
-$ yarn spider [小说名] [小说名] ...
+$ bookspider [小说名] [小说名] ...
 ```
 
 ## 运行截图
@@ -69,6 +56,17 @@ $ yarn spider [小说名] [小说名] ...
 ![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/1621749960365-1621749953964.png)
 
 ## ❗ tips
+
+如果需要自定义暂不支持命令行参数的设置，请 clone 本仓库操作
+
+```bash
+
+npm i
+
+npm run spider [小说名]
+
+...
+```
 
 以下部分为可自定义内容：
 
