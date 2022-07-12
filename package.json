@@ -25,18 +25,18 @@
     "release": "bumpp --commit --push && pnpm publish --no-git-checks"
   },
   "devDependencies": {
-    "@types/node": "^16.11.10",
+    "@types/node": "^18.0.3",
     "@types/optimist": "^0.0.30",
-    "@types/signale": "^1.4.2",
+    "@types/signale": "^1.4.4",
     "bumpp": "^8.2.1",
     "esno": "^0.16.3",
-    "typescript": "^4.5.2",
+    "typescript": "^4.7.4",
     "unbuild": "^0.7.4"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
-    "@types/cheerio": "^0.22.30",
-    "axios": "^0.24.0",
+    "@types/cheerio": "^0.22.31",
+    "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.10",
     "optimist": "^0.6.1",
     "signale": "^1.4.0"

@@ -2,34 +2,34 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/axios': ^0.14.0
-  '@types/cheerio': ^0.22.30
-  '@types/node': ^16.11.10
+  '@types/cheerio': ^0.22.31
+  '@types/node': ^18.0.3
   '@types/optimist': ^0.0.30
-  '@types/signale': ^1.4.2
-  axios: ^0.24.0
+  '@types/signale': ^1.4.4
+  axios: ^0.27.2
   bumpp: ^8.2.1
   cheerio: ^1.0.0-rc.10
   esno: ^0.16.3
   optimist: ^0.6.1
   signale: ^1.4.0
-  typescript: ^4.5.2
+  typescript: ^4.7.4
   unbuild: ^0.7.4
 
 dependencies:
   '@types/axios': 0.14.0
-  '@types/cheerio': 0.22.30
-  axios: 0.24.0
+  '@types/cheerio': 0.22.31
+  axios: 0.27.2
   cheerio: registry.nlark.com/cheerio/1.0.0-rc.10
   optimist: registry.nlark.com/optimist/0.6.1
   signale: 1.4.0
 
 devDependencies:
-  '@types/node': 16.11.10
+  '@types/node': 18.0.3
   '@types/optimist': 0.0.30
-  '@types/signale': 1.4.2
+  '@types/signale': 1.4.4
   bumpp: 8.2.1
   esno: 0.16.3
-  typescript: 4.5.2
+  typescript: 4.7.4
   unbuild: 0.7.4
 
 packages:
@@ -403,18 +403,18 @@ packages:
     dev: true
 
   /@types/axios/0.14.0:
-    resolution: {integrity: sha1-7CMA++fX3d1+udOr+HmZlkyvzkY=, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/@types/axios/download/@types/axios-0.14.0.tgz}
+    resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
     deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
     dependencies:
-      axios: 0.24.0
+      axios: 0.27.2
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@types/cheerio/0.22.30:
-    resolution: {integrity: sha1-bB3tcNINiQM38PUUS+LF6c4JNuY=, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/@types/cheerio/download/@types/cheerio-0.22.30.tgz}
+  /@types/cheerio/0.22.31:
+    resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 18.0.3
     dev: false
 
   /@types/estree/0.0.39:
@@ -425,8 +425,8 @@ packages:
     resolution: {integrity: sha512-BZWrtCU0bMVAIliIV+HJO1f1PR41M7NKjfxrFJwwhKI1KwhwOxYw1SXg9ao+CIMt774nFuGiG6eU+udtbEI9oQ==}
     dev: true
 
-  /@types/node/16.11.10:
-    resolution: {integrity: sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/@types/node/download/@types/node-16.11.10.tgz}
+  /@types/node/18.0.3:
+    resolution: {integrity: sha512-HzNRZtp4eepNitP+BD6k2L6DROIDG4Q0fm4x+dwfsr6LGmROENnok75VGw40628xf+iR24WeMFcHuuBDUAzzsQ==}
 
   /@types/optimist/0.0.30:
     resolution: {integrity: sha1-a5GzEsQlakWo3yyqJ41hGdtT7xM=, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/@types/optimist/download/@types/optimist-0.0.30.tgz}
@@ -435,13 +435,13 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 18.0.3
     dev: true
 
-  /@types/signale/1.4.2:
-    resolution: {integrity: sha1-b8NtA4KX+kwdmqK1wuyAGV1MXS8=, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/@types/signale/download/@types/signale-1.4.2.tgz}
+  /@types/signale/1.4.4:
+    resolution: {integrity: sha512-VYy4VL64gA4uyUIYVj4tiGFF0VpdnRbJeqNENKGX42toNiTvt83rRzxdr0XK4DR3V01zPM0JQNIsL+IwWWfhsQ==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 18.0.3
     dev: true
 
   /array-union/2.1.0:
@@ -449,10 +449,15 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /axios/0.24.0:
-    resolution: {integrity: sha1-gE5voeS5xSiFAd2d/1anoJQNINY=, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/axios/download/axios-0.24.0.tgz?cache=0&sync_timestamp=1635215166167&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Faxios%2Fdownload%2Faxios-0.24.0.tgz}
+  /asynckit/0.4.0:
+    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: false
+
+  /axios/0.27.2:
+    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.14.5
+      follow-redirects: 1.15.1
+      form-data: 4.0.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -534,6 +539,13 @@ packages:
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: true
 
+  /combined-stream/1.0.8:
+    resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      delayed-stream: 1.0.0
+    dev: false
+
   /commondir/1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
     dev: true
@@ -586,6 +598,11 @@ packages:
   /defu/6.0.0:
     resolution: {integrity: sha512-t2MZGLf1V2rV4VBZbWIaXKdX/mUcYW0n2znQZoADBkGGxYL8EWqCuCZBmJPJ/Yy9fofJkyuuSuo5GSwo0XdEgw==}
     dev: true
+
+  /delayed-stream/1.0.0:
+    resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
+    engines: {node: '>=0.4.0'}
+    dev: false
 
   /dir-glob/3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -861,14 +878,23 @@ packages:
       locate-path: registry.nlark.com/locate-path/2.0.0
     dev: false
 
-  /follow-redirects/1.14.5:
-    resolution: {integrity: sha1-8JpYSJgdPHcrU5Iwl3hSP42Fw4E=, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/follow-redirects/download/follow-redirects-1.14.5.tgz?cache=0&sync_timestamp=1635858716278&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ffollow-redirects%2Fdownload%2Ffollow-redirects-1.14.5.tgz}
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /form-data/4.0.0:
+    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
+    engines: {node: '>= 6'}
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
     dev: false
 
   /fs-extra/10.1.0:
@@ -1103,6 +1129,18 @@ packages:
       braces: 3.0.2
       picomatch: 2.3.1
     dev: true
+
+  /mime-db/1.52.0:
+    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
+    engines: {node: '>= 0.6'}
+    dev: false
+
+  /mime-types/2.1.35:
+    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
+    engines: {node: '>= 0.6'}
+    dependencies:
+      mime-db: 1.52.0
+    dev: false
 
   /minimatch/3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -1411,12 +1449,6 @@ packages:
   /type-detect/4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
     engines: {node: '>=4'}
-    dev: true
-
-  /typescript/4.5.2:
-    resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==, registry: http://registry.npm.taobao.org/, tarball: http://registry.npm.taobao.org/typescript/download/typescript-4.5.2.tgz}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
     dev: true
 
   /typescript/4.7.4:
