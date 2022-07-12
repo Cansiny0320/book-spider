@@ -53,7 +53,7 @@ $ book-spider [小说名] [小说名] ...
 
 ## 运行效果
 
-![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/20220712-184837.gif)
+![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/run.gif)
 
 ## ❗ tips
 
