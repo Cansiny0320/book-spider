@@ -45,7 +45,7 @@ export const sources: ISource[] = [
     },
   },
   {
-    Url: 'https://www.biquwx.la',
+    Url: 'https://www.xbiquwx.la',
     Selector: {
       SEARCH_RESULT: 'td > a',
       BOOK_NAME: '#info h1',
