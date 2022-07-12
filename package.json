@@ -45,7 +45,7 @@
     "check": "esno ./scripts/checkSource.ts",
     "test": "esno src/test.ts",
     "build": "unbuild",
-    "release": "bumpp && pnpm publish --no-git-checks",
+    "release": "pnpm build && bumpp && pnpm publish --no-git-checks",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -34,21 +34,27 @@ $ book-spider --source [url] [小说名]
 # url: 书源网址
 # https://www.biquge.com.cn
 # https://www.xbiquge.la
-# https://www.biquwx.la
+# https://www.xbiquwx.la
 # https://www.biqugeu.net
 # https://www.shuquge.com
-```
-
-默认并发数为 64，若要修改并发限制
-
-```bash
-$ book-spider --limit [number] [小说名]
 ```
 
 支持批量下载 小说名之间用空格分开
 
 ```bash
 $ book-spider [小说名] [小说名] ...
+```
+
+顺序下载模式，按章节顺序写入文件，支持断点断续（下载速度不如正常模式，适用于小说章节较多的情况）
+
+```bash
+$ book-spider --mode 1 [小说名]
+```
+
+默认并发数为 64，若要修改并发限制
+
+```bash
+$ book-spider --limit [number] [小说名]
 ```
 
 ## 运行效果
