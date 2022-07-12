@@ -27,7 +27,7 @@ export const logger = {
   interactive,
 }
 
-export const getSpecSource = (url: string) => sources.filter(v => v.Url === url)[0]
+export const getSpecSource = (url: string) => sources.find(v => v.Url === url)
 
 export const checkFileExist = (path: fs.PathLike, onExist: () => void, onNotExist: () => void) => {
   fs.access(path, fs.constants.F_OK, err => {

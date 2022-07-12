@@ -31,7 +31,7 @@ export interface ISource {
   Query: IQuery
 }
 
-interface ISelector {
+export interface ISelector {
   SEARCH_RESULT: string
   BOOK_NAME: string
   BOOK_AUTHOR: string
@@ -44,6 +44,7 @@ interface ISelector {
 export interface IOptions {
   source?: ISource
   limit: number
+  mode?: number
 }
 
 export interface IResultGetBookUrl {

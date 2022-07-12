@@ -10,9 +10,11 @@ const argv = optimist.argv
 const bookNames = argv._ as string[]
 const url = argv.source as string
 const limit = argv.limit as string
+const mode = argv.mode as string
 
 const options: IOptions = {
   limit: parseInt(limit) || 64,
+  mode: parseInt(mode) || 0,
 }
 
 if (url) {
