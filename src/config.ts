@@ -3,7 +3,6 @@ import path from 'path'
 import { ISource } from './interface'
 
 export const DOWNLOAD_PATH = path.resolve(process.cwd(), './download')
-console.log(DOWNLOAD_PATH)
 
 export const sources: ISource[] = [
   {
