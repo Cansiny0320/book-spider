@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/axios': ^0.14.0
   '@types/cheerio': ^0.22.31
   '@types/node': ^18.0.3
   '@types/optimist': ^0.0.30
@@ -16,7 +15,6 @@ specifiers:
   unbuild: ^0.7.4
 
 dependencies:
-  '@types/axios': 0.14.0
   '@types/cheerio': 0.22.31
   axios: 0.27.2
   cheerio: registry.nlark.com/cheerio/1.0.0-rc.10
@@ -401,15 +399,6 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
     dev: true
-
-  /@types/axios/0.14.0:
-    resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
-    deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
-    dependencies:
-      axios: 0.27.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
 
   /@types/cheerio/0.22.31:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}

@@ -58,7 +58,6 @@
     "unbuild": "^0.7.4"
   },
   "dependencies": {
-    "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.31",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.10",
