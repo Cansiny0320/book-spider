@@ -51,9 +51,9 @@ $ book-spider --limit [number] [小说名]
 $ book-spider [小说名] [小说名] ...
 ```
 
-## 运行截图
+## 运行效果
 
-![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/1621749960365-1621749953964.png)
+![](https://cansiny.oss-cn-shanghai.aliyuncs.com/images/20220712-184837.gif)
 
 ## ❗ tips
 
