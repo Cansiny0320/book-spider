@@ -1,16 +1,39 @@
 {
   "name": "book-spider",
+  "type": "module",
   "version": "1.2.6",
   "license": "MIT",
-  "author": "Cansiny0320",
+  "author": "Cansiny0320 <cansiny1220@gmail.com>",
   "description": "a tool for downloading book",
+  "homepage": "https://github.com/Cansiny0320/book-spider#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cansiny0320/book-spider.git"
+  },
+  "bugs": "https://github.com/Cansiny0320/book-spider/issues",
   "keywords": [
     "spider",
     "book"
   ],
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
   "bin": {
     "book-spider": "bin/book-spider.mjs"
   },
@@ -22,7 +45,8 @@
     "check": "esno ./scripts/checkSource.ts",
     "test": "esno src/test.ts",
     "build": "unbuild",
-    "release": "bumpp --commit --push && pnpm publish --no-git-checks"
+    "release": "bumpp && pnpm publish --no-git-checks",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",

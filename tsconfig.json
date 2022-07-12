@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "es2016",
-    "lib": ["ESNext"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
+    "target": "es2018",
+    "module": "esnext",
+    "lib": ["esnext"],
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "exclude": ["dist", "node_modules"]
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  }
 }
