@@ -99,6 +99,27 @@ export const sources: ISource[] = [
       param: 'searchkey',
     },
   },
+  {
+    Url: 'https://www.biqugeabc.com',
+    Selector: {
+      SEARCH_RESULT: 'span >a',
+      BOOK_NAME: '.top h1',
+      BOOK_AUTHOR: '.fix > p:first-child',
+      BOOK_DES: '.desc',
+      CONTENT_URLS: '#chapter_list li a',
+      CONTENT_TITLE: '.title',
+      BOOK_CONTENT: '.text_row_txt',
+    },
+    AD: [
+      '不想错过《异世界：我的人生开了挂！》更新？安装笔趣阁专用APP，作者更新立即推送！承诺永久免费！',
+      '章节错误,点此举报(免注册),举报后维护人员会在两分钟内校正章节内容,请耐心等待,并刷新页面。',
+      '下载最新破解vip章节的笔趣阁APP，全站免费看，这种宝藏APP手慢就找不到下载地址啦！>>戳这里下载安装<<',
+    ],
+    Query: {
+      path: 'search.html',
+      param: 'key',
+    },
+  },
 ]
 
 export const RETRY_TIMES = 3
