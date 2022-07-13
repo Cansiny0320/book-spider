@@ -73,6 +73,8 @@ npm i
 
 npm run spider [小说名]
 
+# 添加参数请使用
+npm run spider -- --source [url] [小说名]
 ...
 ```
 
