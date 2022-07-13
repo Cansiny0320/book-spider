@@ -54,7 +54,8 @@ export class Spider {
     const author = $(Selector.BOOK_AUTHOR).text().trim().split(/[:：]/).pop() as string
     const description = $(Selector.BOOK_DES).text().trim()
     $(Selector.CONTENT_URLS).each((_, ele) => {
-      const url = bookUrl + ($(ele).attr('href') as string).split('/').pop()
+      const href = $(ele).attr('href')!
+      const url = href.startsWith('/') ? href : `${bookUrl}${href}`
       const title = $(ele).text()
       contentUrls.push({ url, title })
     })
