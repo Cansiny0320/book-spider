@@ -61,6 +61,7 @@
     "@types/cheerio": "^0.22.31",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.10",
+    "iconv-lite": "^0.6.3",
     "optimist": "^0.6.1",
     "signale": "^1.4.0"
   }

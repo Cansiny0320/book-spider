@@ -9,6 +9,7 @@ specifiers:
   bumpp: ^8.2.1
   cheerio: ^1.0.0-rc.10
   esno: ^0.16.3
+  iconv-lite: ^0.6.3
   optimist: ^0.6.1
   signale: ^1.4.0
   typescript: ^4.7.4
@@ -18,6 +19,7 @@ dependencies:
   '@types/cheerio': 0.22.31
   axios: 0.27.2
   cheerio: registry.nlark.com/cheerio/1.0.0-rc.10
+  iconv-lite: 0.6.3
   optimist: registry.nlark.com/optimist/0.6.1
   signale: 1.4.0
 
@@ -978,6 +980,13 @@ packages:
       entities: registry.nlark.com/entities/2.2.0
     dev: false
 
+  /iconv-lite/0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      safer-buffer: 2.1.2
+    dev: false
+
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
     engines: {node: '>= 4'}
@@ -1332,6 +1341,10 @@ packages:
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: true
+
+  /safer-buffer/2.1.2:
+    resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+    dev: false
 
   /scule/0.2.1:
     resolution: {integrity: sha512-M9gnWtn3J0W+UhJOHmBxBTwv8mZCan5i1Himp60t6vvZcor0wr+IM0URKmIglsWJ7bRujNAVVN77fp+uZaWoKg==}

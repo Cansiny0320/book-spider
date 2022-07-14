@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import cheerio from 'cheerio'
 import fs from 'fs'
+import iconv from 'iconv-lite'
 import { DOWNLOAD_PATH, RETRY_TIMES, sources } from './config'
 import {
   IBook,
@@ -29,11 +30,16 @@ export class Spider {
     this.source = options.source
     this.limit = options.limit
     this.mode = options.mode || 0
+    // axios.defaults.headers = {
+    //   // 'Content-type': 'application/json;charset=UTF-8',
+    // }
   }
 
   async getBookUrl(bookName: string, source: ISource): Promise<IResultGetBookUrl> {
     const { Selector, Query } = source
-    const { data } = await axios.get(genSearchUrl(Query, bookName))
+    const { data } = await axios.get(genSearchUrl(Query, bookName), {
+      baseURL: Query.domain || this.source?.Url!,
+    })
     const $ = cheerio.load(data)
 
     let bookUrl = ''
@@ -58,9 +64,18 @@ export class Spider {
   async getBookInfo(bookUrl: string) {
     const { Selector } = this.source!
     const contentUrls: IContentUrl[] = []
-    const res = await axios.get(bookUrl, {
-      timeout: 5000,
-    })
+    const res = await axios
+      .get(bookUrl, {
+        timeout: 5000,
+        responseType: 'arraybuffer',
+      })
+      .then(res => {
+        if (res.headers['content-type'].includes('gb2312')) {
+          const decodeData = iconv.decode(res.data, 'gbk')
+          res.data = decodeData
+        }
+        return res
+      })
     const $ = cheerio.load(res.data)
     const bookName = $(Selector.BOOK_NAME).text().trim()
     const author = $(Selector.BOOK_AUTHOR).text().trim().split(/[:：]/).pop() as string
@@ -89,10 +104,15 @@ export class Spider {
         axios
           .get(item.url, {
             timeout: 10000,
+            responseType: 'arraybuffer',
           })
           .then(value => {
             this.success++
             logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
+            if (value.headers['content-type'].includes('gb2312')) {
+              const decodeData = iconv.decode(value.data, 'gbk')
+              value.data = decodeData
+            }
             return value
           })
           .catch(() => {
@@ -116,9 +136,18 @@ export class Spider {
 
   async retry(item: IContentUrl, times: number = 1): Promise<AxiosResponse> {
     try {
-      const value = await axios.get(item.url, {
-        timeout: 10000,
-      })
+      const value = await axios
+        .get(item.url, {
+          timeout: 10000,
+          responseType: 'arraybuffer',
+        })
+        .then(function (res) {
+          if (res.headers['content-type'].includes('gb2312')) {
+            const decodeData = iconv.decode(res.data, 'gbk')
+            res.data = decodeData
+          }
+          return res
+        })
       this.success++
       logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
       return value
@@ -200,7 +229,7 @@ export class Spider {
     const title = $(Selector.CONTENT_TITLE).text()
     const content = $(Selector.BOOK_CONTENT)
       .text()
-      .replace(/\\n/g, '')
+      .replace(/\n/g, '')
       .replace(/    |　　/g, '\n\n') // 空格换为空行
 
     return {

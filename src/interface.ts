@@ -22,6 +22,8 @@ export interface IBook {
 export interface IQuery {
   path: string
   param: string
+  domain?: string
+  restParams?: Record<string, string>
 }
 
 export interface ISource {

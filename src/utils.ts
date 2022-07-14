@@ -10,8 +10,17 @@ const interactive = new Signale({ interactive: true })
 
 const signale = new Signale()
 
-export const genSearchUrl = (query: IQuery, bookName: string) =>
-  encodeURI(`${query.path}?${query.param}=${bookName}`)
+export const genSearchUrl = (query: IQuery, bookName: string) => {
+  const { path, param, restParams } = query
+  const _params = {
+    [param]: bookName,
+    ...restParams,
+  }
+  const paramsString = Object.entries(_params)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&')
+  return encodeURI(`${path}?${paramsString}`)
+}
 
 export const getNowTime = () =>
   `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('chinese', {
