@@ -196,7 +196,6 @@ export class Spider {
     })
     const URLRegex = /(((ht|f)tps?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gm
     content = content.replace(URLRegex, '')
-    content = content.includes(this.source!.Url) ? '' : content
     return content
   }
 
