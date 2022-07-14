@@ -97,7 +97,7 @@ export const sources: ISource[] = [
       CONTENT_TITLE: '.content h1',
       BOOK_CONTENT: '#content',
     },
-    AD: ['请记住本书首发域名：www.shuquge.com。书趣阁_笔趣阁手机版阅读网址：m.shuquge.com'],
+    AD: ['请记住本书首发域名：www.shuquge.com。书趣阁_笔趣阁手机版阅读网址：wap.shuquge.com'],
     Query: {
       path: '/search.php',
       param: 'searchkey',
