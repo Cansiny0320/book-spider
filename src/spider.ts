@@ -31,24 +31,36 @@ export class Spider {
     this.mode = options.mode || 0
   }
 
-  async getBookUrl(bookName: string, source: ISource) {
+  async getBookUrl(bookName: string, source: ISource): Promise<IResultGetBookUrl> {
     const { Selector, Query } = source
-    const res = await axios.get(genSearchUrl(Query, bookName))
-    const $ = cheerio.load(res.data)
-    let bookUrl = ($(Selector.SEARCH_RESULT).attr('href') as string).replace(source.Url, '')
+    const { data } = await axios.get(genSearchUrl(Query, bookName))
+    const $ = cheerio.load(data)
+
+    let bookUrl = ''
+
     $(Selector.SEARCH_RESULT).each((_, ele) => {
-      const title = $(ele).attr('title')
-      if (title === bookName) {
-        bookUrl = ($(ele).attr('href') as string).replace(source.Url, '')
+      const title = $(ele).text()
+      const href = $(ele).attr('href')
+
+      if (title === bookName && href) {
+        bookUrl = href.replace(source.Url, '')
       }
     })
-    if (bookUrl) return { source, bookUrl }
+
+    return new Promise((resolve, reject) => {
+      if (!bookUrl) {
+        reject('没有找到相关书籍')
+      }
+      resolve({ source, bookUrl })
+    })
   }
 
   async getBookInfo(bookUrl: string) {
     const { Selector } = this.source!
     const contentUrls: IContentUrl[] = []
-    const res = await axios.get(bookUrl)
+    const res = await axios.get(bookUrl, {
+      timeout: 5000,
+    })
     const $ = cheerio.load(res.data)
     const bookName = $(Selector.BOOK_NAME).text().trim()
     const author = $(Selector.BOOK_AUTHOR).text().trim().split(/[:：]/).pop() as string
@@ -75,7 +87,9 @@ export class Spider {
     for (const item of array) {
       const p = Promise.resolve().then(() =>
         axios
-          .get(item.url)
+          .get(item.url, {
+            timeout: 10000,
+          })
           .then(value => {
             this.success++
             logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
@@ -102,7 +116,9 @@ export class Spider {
 
   async retry(item: IContentUrl, times: number = 1): Promise<AxiosResponse> {
     try {
-      const value = await axios.get(item.url)
+      const value = await axios.get(item.url, {
+        timeout: 10000,
+      })
       this.success++
       logger.success(`[${this.success + this.fail}/${this.total}] - ${item.title} 获取成功`)
       return value
@@ -139,13 +155,14 @@ export class Spider {
       for (const item of _contentUrls) {
         const { data } = await this.retry(item)
         const { title, content } = this.getDetail(data, Selector)
-        let section = this.removeAd(`\n${title}\n${content}\n\n`, AD)
+        const rawContent = `${title}${content}\n\n`
+        let section = this.removeAd(rawContent, AD)
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, section)
       }
     }
 
     const writeNewFile = async () => {
-      const info = `『${bookName}』\n『作者：${author}』\n『简介:${description}』\n`
+      const info = `『${bookName}』\n『作者：${author}』\n『简介:${description}』\n\n`
       fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, info)
       writeInTurn()
     }
@@ -183,7 +200,9 @@ export class Spider {
     const title = $(Selector.CONTENT_TITLE).text()
     const content = $(Selector.BOOK_CONTENT)
       .text()
+      .replace(/\\n/g, '')
       .replace(/    |　　/g, '\n\n') // 空格换为空行
+
     return {
       title,
       content,
@@ -217,7 +236,7 @@ export class Spider {
         if (index === contents.length - 1) {
           logger.complete(`${bookName} 写入完成！`)
         }
-        let content = `\n${item.title}\n${item.content}\n\n`
+        let content = `\n${item.title}\n${item.content}`
         content = this.removeAd(content, AD)
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, content)
       })
@@ -231,32 +250,42 @@ export class Spider {
   }
 
   async selectSource(bookName: string) {
-    const requests: Promise<IResultGetBookUrl | undefined>[] = []
+    const requests: Promise<IResultGetBookUrl>[] = []
     sources.forEach(source => {
       axios.defaults.baseURL = source.Url
       requests.push(this.getBookUrl(bookName, source))
     })
-    return (await Promise.any(requests)) as unknown as Promise<IResultGetBookUrl>
+    return Promise.any(requests)
   }
 
   async run(bookName: string) {
     try {
       if (!this.source) {
-        const { bookUrl, source } = await this.selectSource(bookName)
-        this.bookUrl = bookUrl
-        this.source = source
-        axios.defaults.baseURL = this.source.Url
-        logger.log(`爬取开始，已自动选择最快书源：${source.Url}`)
+        try {
+          const { bookUrl, source } = await this.selectSource(bookName)
+          this.bookUrl = bookUrl
+          this.source = source
+          axios.defaults.baseURL = this.source.Url
+          logger.log(`爬取开始，已自动选择最快书源：${source.Url}`)
+        } catch (error) {
+          logger.fatal(`${bookName} 没有找到！`)
+          return
+        }
       } else {
         axios.defaults.baseURL = this.source.Url
         const result = await this.getBookUrl(bookName, this.source)
-        if (result) {
-          const { bookUrl } = result
+        const { bookUrl } = result
+        if (!bookUrl) {
+          logger.fatal(`${bookName} 没有找到！`)
+          return
+        }
+        if (bookUrl) {
           this.bookUrl = bookUrl
           logger.log(`爬取开始，本次指定书源：${this.source.Url}`)
         }
       }
       const { contentUrls, info } = await this.getBookInfo(this.bookUrl!)
+      logger.success(`获取书籍信息成功`)
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       if (this.mode === 1) {
         await this.downloadInTurn(contentUrls, info)
