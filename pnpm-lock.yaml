@@ -18,7 +18,6 @@ specifiers:
 
 dependencies:
   '@cansiny0320/async-extra': 0.2.1
-  '@types/cheerio': 0.22.31
   axios: 0.27.2
   cheerio: 1.0.0-rc.12
   iconv-lite: 0.6.3
@@ -26,6 +25,7 @@ dependencies:
   signale: 1.4.0
 
 devDependencies:
+  '@types/cheerio': 0.22.31
   '@types/node': 18.0.6
   '@types/optimist': 0.0.30
   '@types/signale': 1.4.4
@@ -412,7 +412,7 @@ packages:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}
     dependencies:
       '@types/node': 18.0.6
-    dev: false
+    dev: true
 
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -424,6 +424,7 @@ packages:
 
   /@types/node/18.0.6:
     resolution: {integrity: sha512-/xUq6H2aQm261exT6iZTMifUySEt4GR5KX8eYyY+C4MSNPqSh9oNIP7tz2GLKTlFaiBbgZNxffoR3CVRG+cljw==}
+    dev: true
 
   /@types/optimist/0.0.30:
     resolution: {integrity: sha512-dXwE/kn9pOLiofxjeOsR5cY8fHilaa0k+oKWvZ0hV/sGdhW2b55wo2cEvlWALWEeio1U7F2kGtjga5TIhfh7bg==}
