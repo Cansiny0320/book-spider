@@ -8,13 +8,13 @@ import { getSpecSource } from './utils'
 const args = mri(process.argv.splice(2))
 
 const bookNames = args._
-const url = args.source
-const limit = args.limit
-const mode = args.mode
+const url = args.source || args.s
+const limit = args.limit || args.l
+const inTurn = args.t
 
 const options: IOptions = {
   limit: parseInt(limit) || 64,
-  mode: parseInt(mode) || 0,
+  mode: inTurn ? 1 : 0,
 }
 
 if (url) {

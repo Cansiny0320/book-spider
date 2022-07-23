@@ -33,6 +33,7 @@ $ book-spider [小说名]
 ```bash
 
 $ book-spider --source [url] [小说名]
+$ book-spider -s [url] [小说名]
 # url: 书源网址
 # https://www.biquge.com.cn
 # https://www.xbiquge.la
@@ -50,13 +51,14 @@ $ book-spider [小说名] [小说名] ...
 顺序下载模式，按章节顺序写入文件，支持断点断续（下载速度不如正常模式，适用于小说章节较多的情况）
 
 ```bash
-$ book-spider --mode 1 [小说名]
+$ book-spider -t [小说名]
 ```
 
 默认并发数为 64，若要修改并发限制
 
 ```bash
 $ book-spider --limit [number] [小说名]
+$ book-spider -l [number] [小说名]
 ```
 
 ## 运行效果
@@ -74,7 +76,7 @@ npm i
 npm run spider [小说名]
 
 # 添加参数请使用
-npm run spider -- --source [url] [小说名]
+npm run spider -- -s [url] [小说名]
 ...
 ```
 
