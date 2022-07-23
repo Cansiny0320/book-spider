@@ -45,7 +45,8 @@
     "spider": "esno src/index.ts",
     "check-source": "esno ./scripts/checkSource.ts",
     "build": "unbuild",
-    "release": "pnpm build && bumpp && pnpm publish --no-git-checks",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
