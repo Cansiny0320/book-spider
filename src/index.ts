@@ -1,16 +1,16 @@
 import fs from 'fs'
-import optimist from 'optimist'
+import mri from 'mri'
 
 import { IOptions } from './interface'
 import { Spider } from './spider'
 import { getSpecSource } from './utils'
 
-const argv = optimist.argv
+const args = mri(process.argv.splice(2))
 
-const bookNames = argv._ as string[]
-const url = argv.source as string
-const limit = argv.limit as string
-const mode = argv.mode as string
+const bookNames = args._
+const url = args.source
+const limit = args.limit
+const mode = args.mode
 
 const options: IOptions = {
   limit: parseInt(limit) || 64,
