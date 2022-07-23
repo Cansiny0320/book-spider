@@ -1,11 +1,16 @@
-name: check
+name: check-source
 
 on:
   push:
     branches:
       - master
+
+  pull_request:
+    branches:
+      - master
+
   schedule:
-    - cron: 0 * * * *
+    - cron: 0 0 * * *
 
 jobs:
   check:
