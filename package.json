@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.31",
-    "@types/node": "^18.0.6",
+    "@types/node": "^18.6.0",
     "@types/optimist": "^0.0.30",
     "@types/signale": "^1.4.4",
     "bumpp": "^8.2.1",

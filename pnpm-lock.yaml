@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@cansiny0320/async-extra': ^0.2.1
   '@types/cheerio': ^0.22.31
-  '@types/node': ^18.0.6
+  '@types/node': ^18.6.0
   '@types/optimist': ^0.0.30
   '@types/signale': ^1.4.4
   axios: ^0.27.2
@@ -26,7 +26,7 @@ dependencies:
 
 devDependencies:
   '@types/cheerio': 0.22.31
-  '@types/node': 18.0.6
+  '@types/node': 18.6.0
   '@types/optimist': 0.0.30
   '@types/signale': 1.4.4
   bumpp: 8.2.1
@@ -192,6 +192,8 @@ packages:
     resolution: {integrity: sha512-9uJveS9eY9DJ0t64YbIBZICtJy8a5QrDEVdiLCG97fVLpDTpGX7t8mMSb6OWw6Lrnjqj4O8zwjELX3dhoMgiBg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': 7.18.9
     dev: true
 
   /@babel/standalone/7.18.9:
@@ -411,7 +413,7 @@ packages:
   /@types/cheerio/0.22.31:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 18.6.0
     dev: true
 
   /@types/estree/0.0.39:
@@ -422,8 +424,8 @@ packages:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: true
 
-  /@types/node/18.0.6:
-    resolution: {integrity: sha512-/xUq6H2aQm261exT6iZTMifUySEt4GR5KX8eYyY+C4MSNPqSh9oNIP7tz2GLKTlFaiBbgZNxffoR3CVRG+cljw==}
+  /@types/node/18.6.0:
+    resolution: {integrity: sha512-WZ/6I1GL0DNAo4bb01lGGKTHH8BHJyECepf11kWONg3OJoHq2WYOm16Es1V54Er7NTUXsbDCpKRKdmBc4X2xhA==}
     dev: true
 
   /@types/optimist/0.0.30:
@@ -433,13 +435,13 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 18.6.0
     dev: true
 
   /@types/signale/1.4.4:
     resolution: {integrity: sha512-VYy4VL64gA4uyUIYVj4tiGFF0VpdnRbJeqNENKGX42toNiTvt83rRzxdr0XK4DR3V01zPM0JQNIsL+IwWWfhsQ==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 18.6.0
     dev: true
 
   /ansi-styles/3.2.1:
