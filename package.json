@@ -1,40 +1,23 @@
 {
   "name": "book-spider",
-  "type": "module",
   "version": "1.3.4",
-  "license": "MIT",
-  "packageManager": "pnpm@7.2.1",
-  "author": "Cansiny0320 <cansiny1220@gmail.com>",
   "description": "a tool for downloading book",
-  "homepage": "https://github.com/Cansiny0320/book-spider#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Cansiny0320/book-spider.git"
-  },
-  "bugs": "https://github.com/Cansiny0320/book-spider/issues",
   "keywords": [
     "spider",
     "book"
   ],
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
-    }
+  "homepage": "https://github.com/Cansiny0320/book-spider#readme",
+  "bugs": "https://github.com/Cansiny0320/book-spider/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cansiny0320/book-spider.git"
   },
+  "license": "MIT",
+  "author": "Cansiny0320 <cansiny1220@gmail.com>",
+  "sideEffects": false,
+  "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./dist/index.d.ts"
-      ]
-    }
-  },
   "bin": {
     "book-spider": "bin/book-spider.mjs"
   },
@@ -42,22 +25,12 @@
     "dist"
   ],
   "scripts": {
-    "spider": "esno src/index.ts",
-    "check-source": "esno ./scripts/checkSource.ts",
     "build": "unbuild",
+    "check-source": "esno ./scripts/checkSource.ts",
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
+    "spider": "esno src/index.ts",
     "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@types/cheerio": "^0.22.31",
-    "@types/node": "^18.6.0",
-    "@types/optimist": "^0.0.30",
-    "@types/signale": "^1.4.4",
-    "bumpp": "^8.2.1",
-    "esno": "^0.16.3",
-    "typescript": "^4.7.4",
-    "unbuild": "^0.7.6"
   },
   "dependencies": {
     "@cansiny0320/async-extra": "^0.2.1",
@@ -66,5 +39,16 @@
     "iconv-lite": "^0.6.3",
     "mri": "^1.2.0",
     "signale": "^1.4.0"
-  }
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.31",
+    "@types/node": "^18.7.3",
+    "@types/optimist": "^0.0.30",
+    "@types/signale": "^1.4.4",
+    "bumpp": "^8.2.1",
+    "esno": "^0.16.3",
+    "typescript": "^4.7.4",
+    "unbuild": "^0.8.8"
+  },
+  "packageManager": "pnpm@7.2.1"
 }
