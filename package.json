@@ -30,7 +30,9 @@
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
     "spider": "esno src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
     "@cansiny0320/async-extra": "^0.2.1",
@@ -41,11 +43,13 @@
     "signale": "^1.4.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.26.1",
     "@types/cheerio": "^0.22.31",
     "@types/node": "^18.7.3",
     "@types/optimist": "^0.0.30",
     "@types/signale": "^1.4.4",
     "bumpp": "^8.2.1",
+    "eslint": "^8.22.0",
     "esno": "^0.16.3",
     "typescript": "^4.7.4",
     "unbuild": "^0.8.8"

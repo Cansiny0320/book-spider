@@ -1,27 +1,27 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { sources } from '../src/config'
 import axios from 'axios'
+import { sources } from '../src/config'
 import { logger } from '../src/utils'
 axios.interceptors.request.use(
-  function (config) {
+  config => {
     config.metadata = { startTime: new Date() }
     return config
   },
-  function (error) {
+  error => {
     return Promise.reject(error)
-  }
+  },
 )
 
 axios.interceptors.response.use(
-  function (response) {
+  response => {
     response.config.metadata.endTime = new Date()
-    response.duration =
-      response.config.metadata.endTime - response.config.metadata.startTime
+    response.duration = response.config.metadata.endTime - response.config.metadata.startTime
     return response
   },
-  function (error) {
+  error => {
     return Promise.reject(error)
-  }
+  },
 )
 
 const requests = []
@@ -31,6 +31,6 @@ sources.forEach(e =>
     axios
       .get(e.Url)
       .then(res => logger.success(`${e.Url} 访问正常，延迟 ${res.duration}ms`))
-      .catch(() => logger.fatal(`${e.Url} 访问失败`))
-  )
+      .catch(() => logger.fatal(`${e.Url} 访问失败`)),
+  ),
 )
