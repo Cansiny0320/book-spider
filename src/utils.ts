@@ -2,7 +2,7 @@ import fs from 'fs'
 import _Signale from 'signale'
 
 import { sources } from './config'
-import { IQuery } from './interface'
+import type { IQuery } from './interface'
 
 const { Signale } = _Signale
 

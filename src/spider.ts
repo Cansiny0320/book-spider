@@ -1,10 +1,11 @@
-import axios, { AxiosResponse } from 'axios'
-import cheerio from 'cheerio'
 import fs from 'fs'
+import type { AxiosResponse } from 'axios'
+import axios from 'axios'
+import cheerio from 'cheerio'
 import iconv from 'iconv-lite'
 import { limit, retry } from '@cansiny0320/async-extra'
 import { DOWNLOAD_PATH, RETRY_TIMES, sources } from './config'
-import {
+import type {
   IBook,
   IBookInfo,
   IContent,
@@ -14,7 +15,7 @@ import {
   ISelector,
   ISource,
 } from './interface'
-import { checkFileExist, genSearchUrl, logger, sleep } from './utils'
+import { checkFileExist, genSearchUrl, logger } from './utils'
 
 export class Spider {
   success: number
@@ -36,7 +37,7 @@ export class Spider {
   async getBookUrl(bookName: string, source: ISource): Promise<IResultGetBookUrl> {
     const { Selector, Query } = source
     const { data } = await axios.get(genSearchUrl(Query, bookName), {
-      baseURL: Query.domain || this.source?.Url!,
+      baseURL: Query.domain || this.source?.Url,
     })
     const $ = cheerio.load(data)
 
@@ -53,7 +54,7 @@ export class Spider {
 
     return new Promise((resolve, reject) => {
       if (!bookUrl) {
-        reject('没有找到相关书籍')
+        reject(new Error('没有找到相关书籍'))
       }
       resolve({ source, bookUrl })
     })
@@ -103,7 +104,7 @@ export class Spider {
               timeout: 10000,
               responseType: 'arraybuffer',
             })
-            .then(function (res) {
+            .then(res => {
               if (res.headers['content-type'].includes('gb2312')) {
                 const decodeData = iconv.decode(res.data, 'gbk')
                 res.data = decodeData
@@ -145,14 +146,14 @@ export class Spider {
     const { Selector, AD } = this.source!
     const { bookName, author, description } = info
 
-    const writeInTurn = async (start: number = 0) => {
+    const writeInTurn = async (start = 0) => {
       const _contentUrls = contentUrls.slice(start)
       this.total = _contentUrls.length
       for (const item of _contentUrls) {
         const data = await this.fetchDetail(item)
         const { title, content } = this.getDetail(data, Selector)
         const rawContent = `${title}${content}\n\n`
-        let section = this.removeAd(rawContent, AD)
+        const section = this.removeAd(rawContent, AD)
         fs.appendFileSync(`${DOWNLOAD_PATH}/${bookName}.txt`, section)
       }
     }
@@ -170,6 +171,7 @@ export class Spider {
           start = index
           return true
         }
+        return false
       })
       writeInTurn(start)
     }
@@ -197,6 +199,7 @@ export class Spider {
     const content = $(Selector.BOOK_CONTENT)
       .text()
       .replace(/\n/g, '')
+      // eslint-disable-next-line vue/no-irregular-whitespace, no-irregular-whitespace
       .replace(/    |　　/g, '\n\n') // 空格换为空行
 
     return {
@@ -281,7 +284,7 @@ export class Spider {
         }
       }
       const { contentUrls, info } = await this.getBookInfo(this.bookUrl!)
-      logger.success(`获取书籍信息成功`)
+      logger.success('获取书籍信息成功')
       fs.mkdirSync(DOWNLOAD_PATH, { recursive: true })
       if (this.mode === 1) {
         await this.downloadInTurn(contentUrls, info)

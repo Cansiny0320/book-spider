@@ -1,7 +1,7 @@
 import fs from 'fs'
 import mri from 'mri'
 
-import { IOptions } from './interface'
+import type { IOptions } from './interface'
 import { Spider } from './spider'
 import { getSpecSource } from './utils'
 

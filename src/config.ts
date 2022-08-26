@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { ISource } from './interface'
+import type { ISource } from './interface'
 
 export const DOWNLOAD_PATH = path.resolve(process.cwd(), './download')
 
