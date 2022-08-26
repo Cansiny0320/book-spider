@@ -18,47 +18,45 @@
 
 🔧 可配置书籍来源网站
 
+❓ 完善的帮助信息
+
 ## 💡 使用方法
 
 > 需要 Node 版本 >= 15.0.0
 
 ```bash
 $ npm i book-spider -g
-
-$ book-spider [小说名]
+$ bs -v # 查看版本号
+$ bs -h # 查看帮助
+$ bs [小说名] # 下载小说
 ```
 
 默认会自动选择最快书源，若要指定书源
 
 ```bash
 
-$ book-spider --source [url] [小说名]
-$ book-spider -s [url] [小说名]
-# url: 书源网址
-# https://www.biquge.com.cn
-# https://www.xbiquge.la
-# https://www.xbiquwx.la
-# https://www.biqugeu.net
-# https://www.shuquge.com
+$ bs --source [url] [小说名]
+$ bs -s [url] [小说名]
+$ bs list # 查看支持的书源
 ```
 
 支持批量下载 小说名之间用空格分开
 
 ```bash
-$ book-spider [小说名] [小说名] ...
+$ bs [小说名] [小说名] ...
 ```
 
 顺序下载模式，按章节顺序写入文件，支持断点断续（下载速度不如正常模式，适用于小说章节较多的情况）
 
 ```bash
-$ book-spider -t [小说名]
+$ bs -t [小说名]
 ```
 
 默认并发数为 64，若要修改并发限制
 
 ```bash
-$ book-spider --limit [number] [小说名]
-$ book-spider -l [number] [小说名]
+$ bs --limit [number] [小说名]
+$ bs -l [number] [小说名]
 ```
 
 ## 运行效果
@@ -73,10 +71,10 @@ $ book-spider -l [number] [小说名]
 
 npm i
 
-npm run spider [小说名]
+npm run start [小说名]
 
 # 添加参数请使用
-npm run spider -- -s [url] [小说名]
+npm run start -s [url] [小说名]
 ...
 ```
 
