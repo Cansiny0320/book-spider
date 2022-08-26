@@ -9,6 +9,7 @@ specifiers:
   '@types/signale': ^1.4.4
   axios: ^0.27.2
   bumpp: ^8.2.1
+  cac: ^6.7.12
   cheerio: ^1.0.0-rc.10
   eslint: ^8.22.0
   esno: ^0.16.3
@@ -21,6 +22,7 @@ specifiers:
 dependencies:
   '@cansiny0320/async-extra': 0.2.1
   axios: 0.27.2
+  cac: 6.7.12
   cheerio: 1.0.0-rc.12
   iconv-lite: 0.6.3
   mri: 1.2.0
@@ -914,7 +916,6 @@ packages:
   /cac/6.7.12:
     resolution: {integrity: sha512-rM7E2ygtMkJqD9c7WnFU6fruFcN3xe4FM5yUmgxhZzIKJk4uHl9U/fhwdajGFQbQuv43FAUo1Fe8gX/oIKDeSA==}
     engines: {node: '>=8'}
-    dev: true
 
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}

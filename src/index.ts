@@ -1,35 +1,34 @@
 import fs from 'fs'
-import mri from 'mri'
 
 import type { IOptions } from './interface'
 import { Spider } from './spider'
 import { getSpecSource } from './utils'
 
-const args = mri(process.argv.splice(2))
+export const main = async (args: any) => {
+  const bookNames: string[] = args.bookNames ?? []
+  const url = args.source || args.s
+  const limit = args.limit || args.l
+  const inTurn = args.turn || args.t
 
-const bookNames = args._
-const url = args.source || args.s
-const limit = args.limit || args.l
-const inTurn = args.t
+  const options: IOptions = {
+    limit: parseInt(limit) || 64,
+    mode: inTurn ? 1 : 0,
+  }
 
-const options: IOptions = {
-  limit: parseInt(limit) || 64,
-  mode: inTurn ? 1 : 0,
-}
+  if (url) {
+    options.source = getSpecSource(url)
+  }
 
-if (url) {
-  options.source = getSpecSource(url)
-}
+  const spider = new Spider(options)
 
-const spider = new Spider(options)
-
-if (bookNames[0] === 'download') {
-  const download = fs.readFileSync('./download.txt', 'utf-8').split('\r\n')
-  download.forEach(item => {
-    spider.run(item)
-  })
-} else {
-  bookNames.forEach(item => {
-    spider.run(item)
-  })
+  if (args.download) {
+    const download = fs.readFileSync('./download.txt', 'utf-8').split('\r\n')
+    download.forEach(item => {
+      spider.run(item)
+    })
+  } else {
+    bookNames.forEach(item => {
+      spider.run(item)
+    })
+  }
 }

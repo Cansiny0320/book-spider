@@ -19,17 +19,18 @@
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "bin": {
-    "book-spider": "bin/book-spider.mjs"
+    "bs": "bin/cli.mjs"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "unbuild",
+    "dev": "unbuild --stub",
     "check-source": "esno ./scripts/checkSource.ts",
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
-    "spider": "esno src/index.ts",
+    "start": "esno src/cli.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
@@ -37,6 +38,7 @@
   "dependencies": {
     "@cansiny0320/async-extra": "^0.2.1",
     "axios": "^0.27.2",
+    "cac": "^6.7.12",
     "cheerio": "^1.0.0-rc.10",
     "iconv-lite": "^0.6.3",
     "mri": "^1.2.0",
