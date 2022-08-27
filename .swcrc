@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "dynamicImport": false,
+      "decorators": false
+    },
+    "target": "es2015"
+  },
+  "env": {
+    "targets": {
+      "node": "14"
+    },
+    "mode": "usage",
+    "coreJs": "3.25.0",
+    "shippedProposals": true
+  },
+  "module": {
+    "type": "es6"
+  }
+}
